@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &#8212; Getting Started with F5 BIG-IP  documentation</title>
+    
+    <link rel="stylesheet" href="../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/f5_agility_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head>
+  <body>
+  <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="row corp-header">
+      <div class="container corp-header">
+        <div class="container corp-menu">
+          <ul>
+            <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+            <li><a href="https://support.f5.com">Support</a></li>
+            <li><a href="https://devcentral.f5.com">Community</a></li>
+            <li><a href="https://github.com/F5Networks">GitHub</a></li>
+            <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pageHeader">
+      <div class="container stat">
+        <div class="col-xs-12 stat">
+          <a class="internalLink" href="https://f5.com">
+            <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+          </a>
+            <ul id="MainMenu" class="main-menu">
+              <li>
+                <a href="#">Products
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ProductsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Connectors</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon ASP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Kubernetes BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5 Kubernetes Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></--span-->
+                      </li>
+                      <li class="divider"></li>
+                      <li class="third"><span class="a-mm-h">Application Service Proxy</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/asp/latest" data-link-type="Nav: Mega">F5 Application Service Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a href="/products/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Container Integrations
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ContainersSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Container Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/openshift/" data-link-type="Nav: Mega">RedHat OpenShift</a></li>
+                        </ul>
+                        <span class="seemore"><a data-link-type="Nav: Mega" href="http://clouddocs.f5.com/containers/latest">View details </a></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Clouds
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="CloudsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Cloud Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Resources
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+                <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third">
+                        <span class="a-mm-h">Downloads</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks" class="internalLink">Docker Store</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <span class="a-mm-h">OpenSource</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">GitHub</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                        <ul>
+                          <li>
+                            <p>Get up to speed with free self-paced courses</p>
+                          </li>
+                        </ul>
+                        <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                        <ul>
+                          <li>
+                            <p>Join the community of 250,000+ technical peers</p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebar">
+         <h4><a href="../">Getting Started with F5 BIG-IP </a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started</a><ul>
+<li><a class="reference internal" href="#what-is-the-f5-ssl-orchestrator">WHAT IS THE F5 SSL ORCHESTRATOR?</a></li>
+<li><a class="reference internal" href="#multi-layered-security">Multi-layered security</a></li>
+<li><a class="reference internal" href="#dynamic-service-chaining">Dynamic service chaining</a></li>
+<li><a class="reference internal" href="#topologies">Topologies</a></li>
+<li><a class="reference internal" href="#security-policy">Security Policy</a><ul>
+<li><a class="reference internal" href="#whats-new-in-sslo-5-1">WHAT’S NEW IN SSLO 5.1?</a><ul>
+<li><a class="reference internal" href="#lab-topology">Lab Topology</a></li>
+<li><a class="reference internal" href="#connect-to-lab">Connect to lab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">1. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="class1.html">2. Class - Getting Started with F5 BIG-IP</a></li>
+</ul>
+
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Community Training Classes &amp; Labs</a> &gt; <a href="../index.html">Getting Started with F5 BIG-IP</a>
+          <span class="right"><a href="../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of this guide is to provide a sampling of hands-on exercises to better understand deployment of F5 SSL Orchestrator.</p>
+<div class="section" id="what-is-the-f5-ssl-orchestrator">
+<h2>WHAT IS THE F5 SSL ORCHESTRATOR?<a class="headerlink" href="#what-is-the-f5-ssl-orchestrator" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>F5 SSL Orchestrator (SSLO) provides an all-in-one appliance solution
+designed specifically to optimize the SSL infrastructure, provide
+security devices with visibility of SSL/TLS encrypted traffic, and
+maximize efficient use of that existing security investment. This
+solution supports policy-based management and steering of traffic
+flows to existing security devices, designed to easily integrate
+into existing architectures, and centralizes the SSL decrypt/encrypt
+function by delivering the latest SSL encryption technologies across
+the entire security infrastructure.</div></blockquote>
+</div>
+<div class="section" id="multi-layered-security">
+<h2>Multi-layered security<a class="headerlink" href="#multi-layered-security" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>In order to solve specific security challenges, security
+administrators are accustomed to manually chaining together multiple
+point products, creating a bare-bones “security stack” consisting of
+multiple services. A typical stack may include components like Data
+Leak Prevention (DLP) scanners, Web Application Firewalls (WAF),
+Intrusion Prevention and Detection Systems (IPS and IDS), Malware
+Analysis tools, and more. In this model, all user sessions are
+provided the same level of security, as this “daisy chain” of
+services is hard-wired.</div></blockquote>
+</div>
+<div class="section" id="dynamic-service-chaining">
+<h2>Dynamic service chaining<a class="headerlink" href="#dynamic-service-chaining" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Dynamic service chaining effectively breaks the daisy chain paradigm
+by processing specific connections based on context provided by the
+Security Policy, that then allows specific types of traffic to flow
+through arbitrary chains of services. These service chains can
+include five types of services: layer 2 inline services, layer 3
+inline services, receive-only services, ICAP services, and HTTP web
+proxy services.</div></blockquote>
+</div>
+<div class="section" id="topologies">
+<h2>Topologies<a class="headerlink" href="#topologies" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Different environments call for different network implementations.
+While some can easily support SSL visibility at layer 3 (routed),
+others may require these devices to be inserted at layer 2. SSL
+Orchestrator can support all of these networking requirements with
+the following topology options:</div></blockquote>
+<ul class="simple">
+<li>Outbound transparent proxy</li>
+<li>Outbound explicit proxy</li>
+<li>Outbound layer 2</li>
+</ul>
+</div>
+<div class="section" id="security-policy">
+<h2>Security Policy<a class="headerlink" href="#security-policy" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Inbound reverse proxy</p>
+</li>
+<li><p class="first">Existing application</p>
+</li>
+<li><p class="first">Inbound layer 2</p>
+<blockquote>
+<div><p>The SSLO Security Policy provides a rich set of context-aware
+methods to dynamically determine how best to optimize traffic flow
+through the security stack. Context can minimally come from the
+following:</p>
+</div></blockquote>
+</li>
+<li><p class="first">Source and destination address/subnet</p>
+</li>
+<li><p class="first">URL filtering and IP intelligence - Subscriptions</p>
+</li>
+<li><p class="first">Host and domain name</p>
+</li>
+<li><p class="first">Destination port</p>
+</li>
+<li><p class="first">IP geolocation</p>
+</li>
+<li><p class="first">Protocol</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">|image1|</span></a></p>
+<p>Topology System Settings SSL Configuration Service Service Chain
+Security Policy Interception Rule Summary</p>
+<p><strong>Users/Devices</strong></p>
+</div></blockquote>
+</li>
+</ul>
+<p><a href="#id3"><span class="problematic" id="id4">|image2|</span></a>Firewall</p>
+<blockquote>
+<div><p>Internet</p>
+<p><strong>WHAT’S NEW IN SSLO 4.0 AND 5.0?</strong></p>
+<p>SSLO 4.0 provides significant architectural improvements over
+previous versions. Here are just a few of those updates:</p>
+</div></blockquote>
+<ul>
+<li><p class="first">SSLO 4.0 replaces the complex iRules-based traffic classification and
+service chaining functions of previous versions with an Access
+per-request policy engine, providing much greater flexibility in
+traffic management options.</p>
+</li>
+<li><p class="first">SSLO 4.0 optimizes traffic flow through security services by
+replacing the complex “proxy hops” with a new “tee connector” –
+essentially a mid-proxy tap – that allows decrypted traffic to flow
+through security devices out-of-band from the main client-server
+proxy traffic. This is implemented as new “Service” and “Connector”
+profiles.</p>
+</li>
+<li><p class="first">SSLO 4.0 introduces new “split session” client and server SSL
+profiles, that are now responsible for carrying SNI signaling
+information across the inspection zone.</p>
+</li>
+<li><p class="first">SSLO 4.0 further optimizes traffic flow by reducing the amount of
+iRule data plane management, also making it easier to add
+customization iRules.</p>
+</li>
+<li><p class="first">SSLO 4.0 introduces three new network topologies. Along with the
+existing outbound transparent and explicit proxy flows, 4.0 now also
+supports inbound layer 3 (reverse proxy) inspection, and layer 2
+transparent inbound and outbound topologies.</p>
+<blockquote>
+<div><p>SSLO 4.0 also includes the following new functionality features:</p>
+</div></blockquote>
+</li>
+<li><p class="first">Explicit and transparent web proxy devices as an inline security
+service.</p>
+</li>
+<li><p class="first">Front-end explicit proxy authentication via APM integration (relies
+on existing SWG-Explicit access policy).</p>
+</li>
+<li><p class="first">FTPS (passive), SMTPS, POP3S, and IMAPS protocols inspection.</p>
+</li>
+<li><p class="first">ICAP advanced filtering via LTM CPM policy (relies on an existing CPM
+policy).</p>
+</li>
+<li><p class="first">URL filtering as a function of the Access per-request service
+chaining policy.</p>
+</li>
+<li><p class="first">Authentication headers - ability to define additional HTTP headers to
+pass to inline security services.</p>
+</li>
+<li><p class="first">vCMP support - ability to select existing VLANs for inbound and
+outbound to/from inline services.</p>
+<blockquote>
+<div><p>SSLO 5.0 includes the following updates:</p>
+</div></blockquote>
+</li>
+<li><p class="first">Guided Configuration user experience, a complete refresh of the SSLO
+UI based on the Access Guided Configuration engine.</p>
+</li>
+<li><p class="first">Discreet “topology” definitions and the ability to define how SSLO
+listens for and processes traffic flows.</p>
+</li>
+<li><p class="first">Re-entrant, wizard-driven workflows. Based on the selected topology,
+SSLO 5.0 presents an intuitive workflow UI that walks the user
+through a simplified object creation process.</p>
+</li>
+</ul>
+<div class="section" id="whats-new-in-sslo-5-1">
+<h3>WHAT’S NEW IN SSLO 5.1?<a class="headerlink" href="#whats-new-in-sslo-5-1" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>SSL Orchestrator 5.1 was released on December 17th, 2018, a few days
+after the release of BIG-IP 14.1 with SSLO</div></blockquote>
+<ol class="arabic">
+<li><p class="first">SSLO 5.1 contains significant updates to the product and is therefore
+recommended (over 5.0) for customer environments.</p>
+<blockquote>
+<div><p>Additional information about SSLO 5.1, including updates and fixes,
+can be found in the official release notes:
+<em>https://support.f5.com/kb/en-us/products/ssl-orchestrator/releasenotes/product/relnote-ssl-orchestrator-14-1-</em>
+<em>0-iapp-5-1.html</em></p>
+<p>SSL Orchestrator 5.1 is available on the F5 downloads site,
+<em>https://downloads.f5.com</em>, under the SSL Orchestrator section, as
+<strong>f5-iappslx-ssl-orchestrator-14.1.0-5.1.254.rpm</strong>.</p>
+<p>This lab guide and corresponding Ravello lab environment are
+prepared for SSLO 5.1. If installing a fresh BIG-IP 14.1 instance,
+it is recommended to immediately download the 5.1 package and
+install over the built-in 5.0 version. To do this, in the SSLO UI,
+click on <strong>SSL Orchestrator</strong> -&gt; <strong>Configuration</strong> -&gt; <strong>Upgrade SSL
+Orchestrator</strong>, choose the downloaded SSLO 5.1 package and then
+upload and install.</p>
+</div></blockquote>
+</li>
+</ol>
+<div class="section" id="lab-topology">
+<h4>Lab Topology<a class="headerlink" href="#lab-topology" title="Permalink to this headline">¶</a></h4>
+<p>Each student will have a BIG-IP VE environment with IP addressing as below:</p>
+<img alt="_static/image000.png" src="_static/image000.png" />
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="20%" />
+<col width="40%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head stub"><strong>Component</strong></th>
+<th class="head"><strong>VLAN/IP Address(es)</strong></th>
+<th class="head"><strong>Credentials</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><th class="stub">Jump Host</th>
+<td><ul class="first last simple">
+<li><strong>Management:</strong> 10.1.1.51</li>
+<li><strong>External:</strong> 10.1.10.51</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">f5student</span></code>/<code class="docutils literal"><span class="pre">f5DEMOs4u</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><th class="stub">Ansible Host</th>
+<td><ul class="first last simple">
+<li><strong>Management:</strong> 10.1.1.150</li>
+<li><strong>External:</strong> 10.1.10.150</li>
+<li><strong>Internal:</strong> 10.1.20.150</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">root</span></code>/<code class="docutils literal"><span class="pre">password</span></code></li>
+<li><code class="docutils literal"><span class="pre">admin</span></code>/<code class="docutils literal"><span class="pre">password</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><th class="stub">BIG-IP01</th>
+<td><ul class="first last simple">
+<li><strong>Management:</strong> 10.1.1.245</li>
+<li><strong>External:</strong> 10.1.10.245</li>
+<li><strong>Internal:</strong> 10.1.20.245</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">admin</span></code>/<code class="docutils literal"><span class="pre">admin</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><th class="stub">Lamp Host</th>
+<td><ul class="first last simple">
+<li><strong>Management:</strong> 10.1.1.252</li>
+<li><strong>External:</strong> 10.1.10.252</li>
+<li><strong>Internal:</strong> 10.1.20.252</li>
+</ul>
+</td>
+<td><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">root</span></code>/<code class="docutils literal"><span class="pre">default</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="connect-to-lab">
+<h4>Connect to lab<a class="headerlink" href="#connect-to-lab" title="Permalink to this headline">¶</a></h4>
+<p><strong>Access f5 training portal</strong></p>
+<ol class="arabic simple">
+<li>Open a browser and go to student portal site as provided by instructor.</li>
+</ol>
+<p><strong>Connect to Jump server</strong></p>
+<ol class="arabic">
+<li><p class="first">Look for the xubuntu-jumpbox-vxx.  You will use the xubuntu jumpbox for all the labs. (see below)</p>
+<a class="reference internal image-reference" href="../_images/image001.png"><img alt="../_images/image001.png" src="../_images/image001.png" style="height: 500px;" /></a>
+</li>
+<li><p class="first">You can click on <strong>RDP</strong> to RDP to the Xubuntu jumpbox or you can select the <strong>CONSOLE</strong> link and access the jumpbox via your browser.  <strong>The CONSOLE link requires you turn off pop-up blockers.</strong></p>
+<a class="reference internal image-reference" href="../_images/image002.png"><img alt="../_images/image002.png" src="../_images/image002.png" style="height: 300px;" /></a>
+</li>
+</ol>
+<p><strong>Connect to BIG-IP admin gui</strong></p>
+<ol class="arabic simple">
+<li>From Jumpbox, open BIG-IP Admin GUI<ul>
+<li>Open Chrome browser found on launchpad at bottom of screen</li>
+<li>Click on <code class="docutils literal"><span class="pre">bigip01</span></code> on favorites bar</li>
+<li>Login with username: <code class="docutils literal"><span class="pre">admin</span></code> and password: <code class="docutils literal"><span class="pre">admin</span></code></li>
+</ul>
+</li>
+</ol>
+<p><strong>Connecting to ansible host.</strong></p>
+<ol class="arabic simple">
+<li>From Jumpbox, SSH to Ansible host<ul>
+<li>Open Terminal Emulator Window found on launchpad at bottom of screen</li>
+<li>Type <code class="docutils literal"><span class="pre">ssh</span> <span class="pre">root&#64;10.1.1.150</span></code></li>
+<li>Type <code class="docutils literal"><span class="pre">yes</span></code> when asked “Are you sure…”</li>
+<li>If prompted, password is <strong>password</strong></li>
+</ul>
+</li>
+<li>Change directory to access lab directory folder<ul>
+<li>type <code class="docutils literal"><span class="pre">cd</span> <span class="pre">f5-ansible-workshop</span></code> to change directory to location of the ansible lab.</li>
+<li>type <code class="docutils literal"><span class="pre">pwd</span></code> to confirm path is <strong>/root/f5-ansible-workshop</strong>.</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="content-fluid pre-footer">
+            <div class="blocks-container">
+              <div class="block">
+                <h3>Support Programs</h3>
+                <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Contact Support</h3>
+                <p>
+                  North America: 1-888-882-7535<br>
+                  Outside North America: 800-11-275-435
+                </p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Feedback and Help</h3>
+                <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+                <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="footer">
+            <div class="container">
+              <div class="col-sm-3 col-md-2">
+                <h4>About F5</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-md-2">
+                <h4>Education</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-sm-3 col-md-2">
+                <h4>F5 sites</h4>
+                <ul>
+                <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+                </li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+                </li>
+                <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-3 col-md-2">
+            <h4>Support Tasks</h4>
+            <ul>
+                <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+                </li>
+                <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-12 col-md-3 right">
+            <h4>Connect with us</h4>
+            <ul class="social_icons">
+                <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="content-fluid left">
+            <div class="col-xs-12">
+                <p>
+                    © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                    <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                    <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</footer>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>

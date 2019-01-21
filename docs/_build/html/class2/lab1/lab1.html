@@ -1,0 +1,2638 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3.2.1. LAB 1 – CREATE A TRANSPARENT FORWARD PROXY SSLO &#8212; F5 SSL Orchestrator  documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/f5_agility_theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="3. Class - F5 SSL Orchestrator" href="../class1.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head>
+  <body>
+  <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="row corp-header">
+      <div class="container corp-header">
+        <div class="container corp-menu">
+          <ul>
+            <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+            <li><a href="https://support.f5.com">Support</a></li>
+            <li><a href="https://devcentral.f5.com">Community</a></li>
+            <li><a href="https://github.com/F5Networks">GitHub</a></li>
+            <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pageHeader">
+      <div class="container stat">
+        <div class="col-xs-12 stat">
+          <a class="internalLink" href="https://f5.com">
+            <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+          </a>
+            <ul id="MainMenu" class="main-menu">
+              <li>
+                <a href="#">Products
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ProductsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Connectors</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 Marathon ASP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 Kubernetes BIG-IP Controller</a></li>
+                          <li><a href="http://clouddocs.f5.com/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5 Kubernetes Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></--span-->
+                      </li>
+                      <li class="divider"></li>
+                      <li class="third"><span class="a-mm-h">Application Service Proxy</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/products/asp/latest" data-link-type="Nav: Mega">F5 Application Service Proxy</a></li>
+                        </ul>
+                        <!--span class="seemore"><a href="/products/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Container Integrations
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="ContainersSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Container Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                          <li><a href="http://clouddocs.f5.com/containers/latest/openshift/" data-link-type="Nav: Mega">RedHat OpenShift</a></li>
+                        </ul>
+                        <span class="seemore"><a data-link-type="Nav: Mega" href="http://clouddocs.f5.com/containers/latest">View details </a></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Clouds
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+
+                <div class="menu-panel soft-hide" id="CloudsSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third"><span class="a-mm-h">Cloud Integrations</span>
+                        <ul>
+                          <li><a href="http://clouddocs.f5.com/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                        </ul>
+                        <!--span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span-->
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <a href="#">Resources
+                  <span class="indicator"><span class="arrow-up"></span></span>
+                </a>
+                <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+                  <div class="container">
+                    <ul class="submenu col-sm-11">
+                      <li class="third">
+                        <span class="a-mm-h">Downloads</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks" class="internalLink">Docker Store</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <span class="a-mm-h">OpenSource</span>
+                        <ul>
+                          <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">GitHub</a></li>
+                        </ul>
+                      </li>
+                      <li class="divider"></li>
+
+                      <li class="third">
+                        <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                        <ul>
+                          <li>
+                            <p>Get up to speed with free self-paced courses</p>
+                          </li>
+                        </ul>
+                        <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                        <ul>
+                          <li>
+                            <p>Join the community of 250,000+ technical peers</p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div> <!-- /container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebar">
+         <h4><a href="../../">F5 SSL Orchestrator </a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">3.2.1. LAB 1 – CREATE A TRANSPARENT FORWARD PROXY SSLO</a><ul>
+<li><a class="reference internal" href="#step-1-review-the-lab-environment-and-map-out-the-services-and-endpoints">3.2.1.1. Step 1: Review the lab environment and map out the services and endpoints</a></li>
+<li><a class="reference internal" href="#step-2-fulfill-the-ssl-orchestrator-prerequisites">3.2.1.2. Step 2: Fulfill the SSL Orchestrator prerequisites</a></li>
+<li><a class="reference internal" href="#step-3-create-the-ssl-orchestrator-deployment-through-guided-configuration">3.2.1.3. Step 3: Create the SSL Orchestrator deployment through Guided Configuration</a><ul>
+<li><a class="reference internal" href="#image13">3.2.1.3.1. </a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-4-test-the-solution">3.2.1.4. Step 4: Test the solution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lab-2-create-a-gateway-reverse-proxy-sslo">3.2.2. LAB 2 – CREATE A GATEWAY REVERSE PROXY SSLO</a><ul>
+<li><a class="reference internal" href="#step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints">3.2.2.1. Step 1: Review the lab diagram and map out the services and endpoints</a></li>
+<li><a class="reference internal" href="#step-2-configure-an-l3-inbound-sslo-deployment-through-guided-configuration">3.2.2.2. Step 2: Configure an L3 inbound SSLO deployment through Guided Configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lab-3-create-an-explicit-forward-proxy-sslo">3.2.3. LAB 3 – CREATE AN EXPLICIT FORWARD PROXY SSLO</a><ul>
+<li><a class="reference internal" href="#id3">3.2.3.1. Step 1: Review the lab diagram and map out the services and endpoints</a></li>
+<li><a class="reference internal" href="#step-2-configure-an-explicit-proxy-sslo-deployment-through-guided-configuration">3.2.3.2. Step 2: Configure an explicit proxy SSLO deployment through Guided Configuration</a><ul>
+<li><a class="reference internal" href="#image62">3.2.3.2.1. </a></li>
+<li><a class="reference internal" href="#image63">3.2.3.2.2. </a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#step-3-add-dns-and-logging-settings">3.2.3.3. Step 3: Add DNS and Logging settings</a></li>
+<li><a class="reference internal" href="#step-4-optional-add-explicit-proxy-authentication">3.2.3.4. Step 4: [Optional] Add explicit proxy authentication</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lab-4-delete-an-sslo-configuration">3.2.4. LAB 4 – DELETE AN SSLO CONFIGURATION</a><ul>
+<li><a class="reference internal" href="#step-1-deleting-a-topology">3.2.4.1. Step 1: Deleting a topology</a></li>
+<li><a class="reference internal" href="#step-2-deleting-other-objects">3.2.4.2. Step 2: Deleting other objects</a></li>
+<li><a class="reference internal" href="#step-3-deleting-everything">3.2.4.3. Step 3: Deleting everything</a></li>
+<li><a class="reference internal" href="#optional-deleting-everything-the-hard-way">3.2.4.4. Optional: Deleting everything…the hard way</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshoot-sslo">3.2.5. TROUBLESHOOT SSLO</a><ul>
+<li><a class="reference internal" href="#step-1-test-the-configuration">3.2.5.1. Step 1: Test the configuration</a></li>
+<li><a class="reference internal" href="#step-2-troubleshoot">3.2.5.2. Step 2: Troubleshoot</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix-common-testing-commands">3.2.6. APPENDIX – COMMON TESTING COMMANDS</a><ul>
+<li><a class="reference internal" href="#control-the-sslfwd-certificate-cache">3.2.6.1. Control the SSLFWD certificate cache</a></li>
+<li><a class="reference internal" href="#isolate-sslo-traffic">3.2.6.2. Isolate SSLO traffic</a></li>
+<li><a class="reference internal" href="#debugging">3.2.6.3. Debugging</a></li>
+<li><a class="reference internal" href="#packet-capture">3.2.6.4. Packet capture</a></li>
+<li><a class="reference internal" href="#ssl-inspection">3.2.6.5. SSL inspection</a></li>
+<li><a class="reference internal" href="#control-the-url-filtering-database">3.2.6.6. Control the URL Filtering database</a></li>
+<li><a class="reference internal" href="#external-testing">3.2.6.7. External testing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix-routing-considerations-for-layer-3-devices">3.2.7. APPENDIX – ROUTING CONSIDERATIONS FOR LAYER 3 DEVICES</a><ul>
+<li><a class="reference internal" href="#configuring-a-policy-route-on-the-layer-3-device">3.2.7.1. Configuring a policy route on the layer 3 device</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix-demo-scripts">3.2.8. APPENDIX – DEMO SCRIPTS</a><ul>
+<li><a class="reference internal" href="#lab-1-demo-script">3.2.8.1. Lab 1 demo script</a></li>
+<li><a class="reference internal" href="#lab-2-demo-script">3.2.8.2. Lab 2 demo script</a></li>
+<li><a class="reference internal" href="#lab-3-demo-script">3.2.8.3. Lab 3 demo script</a></li>
+</ul>
+</li>
+</ul>
+
+
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">1. Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../class1/class1.html">2. Class - F5 SSL Orchestrator</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../class1.html">3. Class - F5 SSL Orchestrator</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../class1.html#ssl-orchestrator-lab-environment">3.1. SSL ORCHESTRATOR LAB ENVIRONMENT</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../class1.html#topology-sslo">3.2. Topology – SSLO</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../class1.html"
+                        title="previous chapter">3. Class - F5 SSL Orchestrator</a></p>
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Community Training Classes &amp; Labs</a> &gt; <a href="../../index.html">F5 SSL Orchestrator</a>
+          <span class="right"><a href="../../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="lab-1-create-a-transparent-forward-proxy-sslo">
+<h1>3.2.1. LAB 1 – CREATE A TRANSPARENT FORWARD PROXY SSLO<a class="headerlink" href="#lab-1-create-a-transparent-forward-proxy-sslo" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>The majority of enterprise forward proxy configurations will involve
+a single F5 platform performing the SSL visibility task. The SSL
+Orchestrator has been designed with that principle in mind and
+performs robust security service chaining of security devices
+attached to a single appliance. SSL Orchestrator 5.0 now makes
+configuration of a single-box deployment simple and intuitive.
+Please follow the steps below to create a transparent forward proxy
+SSL Orchestrator configuration.</div></blockquote>
+<div class="section" id="step-1-review-the-lab-environment-and-map-out-the-services-and-endpoints">
+<h2>3.2.1.1. Step 1: Review the lab environment and map out the services and endpoints<a class="headerlink" href="#step-1-review-the-lab-environment-and-map-out-the-services-and-endpoints" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Review the “SSL Orchestrator Lab Environment” section above. This
+lab will attach one of each type of security service (HTTP, ICAP,
+L2, L3, TAP) to SSLO for an outbound forward proxy traffic flow.
+Afterwards, an internal client will be able to access remote
+(Internet) resources through SSLO, providing decrypted, inspectable
+traffic to the security services.</div></blockquote>
+<ul>
+<li><p class="first">The client is attached to a <em>10.20.0.0/24</em> network and is assigned
+the IP <em>10.20.0.60</em>. This network is attached to the BIG-IP 1.1
+interface.</p>
+</li>
+<li><p class="first">The <strong>L2 device</strong> is an Ubuntu 14.04 LTS server configured to bridge
+its eth1 and eth2 interfaces. Its inbound VLAN (traffic to it) is
+attached to the BIG-IP <em>1.6</em> interface. Its outbound interface
+(traffic coming from it) is attached to the BIG-IP <em>1.7</em> interface.</p>
+</li>
+<li><p class="first">The <strong>L3 device</strong> is an Ubuntu 14.04 LTS server configured to route
+between its eth1.10 and eth1.20 (tagged) interfaces. Its inbound VLAN
+(traffic to it) is attached to the BIG-IP <em>1.3 (VLAN tag 30)</em>
+interface and has an IP of <em>198.19.64.64/25</em>. Its outbound interface
+(traffic coming from it) is attached to the BIG-IP <em>1.3 (VLAN tag
+60)</em> interface and has an IP of <em>198.19.64.130/25</em>. Its default
+gateway is <em>198.19.64.245</em>, which will be a VLAN self-IP on the
+BIG-IP.</p>
+</li>
+<li><p class="first">The <strong>TAP</strong> device is an Ubuntu 14.04 LTS server configured with a
+single eth1 interface. That interface is attached to the BIG-IP <em>1.4</em>
+interface.</p>
+</li>
+<li><p class="first">The <strong>DLP/ICAP</strong> device is an Ubuntu 14.04 LTS server configured with
+a single eth1 interface. That interface is attached to the BIG-IP
+<em>1.5</em> interface and has an IP of <em>10.70.0.10 and listening on port
+1344</em>. The box is running c-icap and Squid/Clamav.</p>
+</li>
+<li><p class="first">The <strong>Explicit Proxy device</strong> is an Ubuntu 14.04 LTS server
+configured with Squid. Its interfaces are eth1.30 and eth1.40
+(tagged). Its inbound VLAN (traffic to it) is attached to the BIG-IP
+<em>1.3 (VLAN tag 110)</em> interface and has an IP of <em>198.19.96.66/25</em>.
+Its outbound interface (traffic coming from it) is attached to the
+BIG-IP</p>
+<blockquote>
+<div><p><em>1.3 (VLAN tag 120)</em> interface and has an IP of <em>198.19.96.136/25</em>.
+Its default gateway is <em>198.19.96.245</em>, which will be a VLAN self-IP
+on the BIG-IP.</p>
+</div></blockquote>
+</li>
+<li><p class="first">The outbound network is attached to the BIG-IP <em>1.2</em> interface, in
+the <em>10.30.0.0/24</em> subnet, and has a gateway of <em>10.30.0.1</em>.</p>
+</li>
+<li><p class="first">In the lab, client inbound, Internet outbound, and DLP VLANs and
+self-IPs are already created.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="step-2-fulfill-the-ssl-orchestrator-prerequisites">
+<h2>3.2.1.2. Step 2: Fulfill the SSL Orchestrator prerequisites<a class="headerlink" href="#step-2-fulfill-the-ssl-orchestrator-prerequisites" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>There are a number of objects that SSL Orchestrator does not create
+and expects to exist before deploying the iApp. You must create the
+following objects before starting the iApp:</div></blockquote>
+<ul class="simple">
+<li><strong>Import the CA certificate and private key</strong> – in order to terminate
+and re-encrypt outbound SSL traffic, SSL Forward Proxy must re-issue,
+or rather “forge” a new server certificate to the client. In order to
+perform this re-issuance process, the BIG-IP must possess a
+certificate authority (CA) certificate and associated private key.
+<em>This lab environment already has a subordinate CA certificate and
+private key installed</em>.</li>
+<li><strong>Create the client inbound VLAN and self-IP</strong> – create the VLAN and
+self-IP that connects the client to the BIG-IP. In this lab that’s
+the <em>10.20.0.0/24</em> subnet and interface <em>1.1</em> on the BIG-IP. This lab
+environment already has this VLAN and self-IP created.</li>
+<li><strong>Create the Internet outbound VLAN and self-IP</strong> – create the VLAN
+and self-IP that connects the BIG-IP to the outbound Internet router.
+In this lab that’s the <em>10.30.0.0/24</em> subnet and interface <em>1.2</em> on
+the BIG-IP. <em>This lab environment already has this VLAN and self-IP
+created</em>.</li>
+<li><strong>Create the DLP VLAN and self-IP</strong> – if it is desired to isolate the
+DLP/ICAP device, create the VLAN and self- IP that connects the DLP
+device to the BIG-IP. In this lab that’s the <em>10.70.0.0/24</em> subnet
+and interface <em>1.5</em> on the BIG-IP. The DLP security device is
+listening on <em>10.70.0.10</em> and ICAP is listening on port <em>1344</em>. <em>This
+lab environment already has this VLAN and self-IP created</em>.</li>
+<li><strong>Create the default internet route for outbound traffic</strong> – the iApp
+provides an option to leverage a defined gateway pool or use the
+system default route. If a gateway pool is not used, they system
+route table will need to have a default route used to reach Internet
+destination. <em>We’ll use a gateway pool defined within SSLO to create
+this Route</em>.</li>
+</ul>
+</div>
+<div class="section" id="step-3-create-the-ssl-orchestrator-deployment-through-guided-configuration">
+<h2>3.2.1.3. Step 3: Create the SSL Orchestrator deployment through Guided Configuration<a class="headerlink" href="#step-3-create-the-ssl-orchestrator-deployment-through-guided-configuration" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The SSL Orchestrator Guided Configuration presents a completely new
+and streamlined user experience. This workflow-based architecture
+provides intuitive, re-entrant configuration steps tailored to the
+selected topology.</p>
+<p><img alt="image4" src="../../_images/image2.png" /></p>
+<p>Topology System Settings SSL Configuration Service Service Chain
+Security Policy Interception Rule Summary</p>
+<p>The following steps will walk through the Guided Configuration (GC)
+to build a simple transparent forward proxy.</p>
+</div></blockquote>
+<ul class="simple">
+<li><strong>SSL Orchestrator-</strong> click on <strong>SSL Orchestrator</strong> panel then click
+<a href="#id1"><span class="problematic" id="id2">**</span></a>Configuration **</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image14.png"><img alt="image5" src="../../_images/image14.png" style="width: 5.43004in; height: 3.97366in;" /></a></p>
+<ul>
+<li><p class="first"><strong>Initialization</strong> – if this is the first time accessing SSLO in a
+new BIG-IP build, upon first access, GC will automatically load and
+deploy the built-in SSLO package.</p>
+<blockquote>
+<div><p><img alt="image6" src="../../_images/image15.png" /></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Configuration review and prerequisites</strong> – take a moment to review
+the topology options and workflow configuration steps involved.
+Optionally satisfy any of the DNS, NTP and Route prerequisites from
+this page. Keep in mind, however, that aside from NTP, the SSLO GC
+will provide an opportunity to define DNS and route settings later in
+the workflow. No other configurations are required on this page, so
+click Next.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image17.png"><img alt="image7" src="../../_images/image17.png" style="width: 5.32634in; height: 4.26761in;" /></a></p>
+<p><img alt="image8" src="../../_images/image18.png" /></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Topology Properties</strong> – SSLO now creates <em>discreet</em> configurations
+based on the selected topology. For example, in previous versions of
+SSLO, a transparent and explicit forward proxy might be defined
+together. In SSLO 5.0, these are configured separately. An explicit
+forward proxy topology will ultimately create an explicit proxy
+listener and its relying transparent proxy lister, but the
+transparent listener will be bound only to the explicit proxy tunnel.
+If a subsequent transparent forward proxy topology is configured, it
+will not overlap the existing explicit proxy objects. The Topology
+Properties page provides the following options,</p>
+<blockquote>
+<div><p>The Protocol option presents four protocol types:</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>TCP</strong> – this option creates a single TCP wildcard interception rule
+for the L3 Inbound, L3 Outbound L3, and L3 Explicit Proxy topologies.</p>
+</li>
+<li><p class="first"><strong>UDP</strong> – this option creates a single UDP wildcard interception rule
+for L3 Inbound and L3 Outbound topologies.</p>
+</li>
+<li><p class="first"><strong>Other</strong> – this option creates a single any protocol wildcard
+interception rule for L3 Inbound and L3 Outbound topologies,
+typically used for non-TCP/UDP traffic flows.</p>
+</li>
+<li><p class="first"><strong>Any</strong> – this option creates the TCP, UDP and non-TCP/UDP
+interception rules for outbound traffic flows.</p>
+<blockquote>
+<div><p>The SSL Orchestrator Topologies option page presents six topologies:
+o <strong>L3 Explicit Proxy</strong> – this is the traditional explicit forward
+proxy. o <strong>L3 Outbound</strong> – this is the traditional transparent
+forward proxy.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>L3 Inbound</strong> – this is a reverse proxy “gateway” configuration. In
+its simplest form, this topology builds an SSLO environment designed
+to sit <strong>*in front of*</strong> another ADC or routed path. Advanced options
+allow it to define a pool for more directed traffic flow, but alone
+does not provide the same flexibility afforded a typical LTM reverse
+proxy virtual server. It also must perform re-encryption on egress.
+The primary use case for this topology is as a gateway SSL visibility
+solution, potentially sitting at a boundary edge in front of multiple
+internal ADC environments.</p>
+</li>
+<li><p class="first"><strong>L2 Inbound</strong> – the layer 2 topology options insert SSLO as a
+bump-in-the-wire in an existing routed path, where SSLO presents no
+IP addresses on its outer edges. The L2 Inbound topology provides a
+transparent path for inbound traffic flows.</p>
+</li>
+<li><p class="first"><strong>L2 Outbound</strong> – the layer 2 topology options insert SSLO as a
+bump-in-the-wire in an existing routed path, where SSLO presents no
+IP addresses on its outer edges. The L2 Outbound topology provides a
+transparent path for outbound traffic flows.</p>
+</li>
+<li><p class="first"><strong>Existing Application</strong> – this topology is designed to work with
+existing LTM applications. Whereas the L3 Inbound topology provides
+an inbound gateway function for SSLO, Existing Application works with
+LTM virtual servers that already perform their own SSL handling and
+client-server traffic management. The Existing Application workflow
+proceeds directly to service creation and security policy definition,
+then exits with an SSLO-type access policy and per-request policy
+that can easily be consumed by an LTM virtual server.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image19.jpeg"><img alt="image9" src="../../_images/image19.jpeg" style="width: 6.55493in; height: 0.95000in;" /></a></p>
+</div></blockquote>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image20.png"><img alt="image10" src="../../_images/image20.png" style="width: 5.68323in; height: 4.58685in;" /></a></p>
+<blockquote>
+<div>For this lab,</div></blockquote>
+<ul class="simple">
+<li><strong>Name</strong>: Outbound_demo</li>
+<li><strong>Protocol</strong>: Any – this will create separate TCP, UDP and
+non-TCP/UDP interception rules.</li>
+<li><strong>IP Family</strong>: IPv4</li>
+<li><strong>Topology</strong>: L3 Outbound</li>
+<li>Click Save &amp; Next.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image21.png"><img alt="image11" src="../../_images/image21.png" style="width: 5.74634in; height: 4.52554in;" /></a></p>
+<blockquote>
+<div><img alt="image12" src="../../_images/image22.png" /></div></blockquote>
+<ul>
+<li><p class="first"><strong>SSL Configurations</strong> – this page defines the specific SSL settings
+for the selected topology, in this case a forward proxy, and controls
+both client-side and server-side SSL options. If existing SSL
+settings are available (from a previous workflow), it can be selected
+and re-used. Otherwise the SSL Configurations page creates new SSL
+settings for this workflow. For this lab, create a new SSL profile,</p>
+<ul>
+<li><p class="first rubric" id="click-on-show-advance-settings">Click on Show Advance Settings</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="section" id="image13">
+<h3>3.2.1.3.1. <a class="reference internal" href="../../_images/image23.png"><img alt="image13" src="../../_images/image23.png" style="width: 4.98293in; height: 1.87793in;" /></a><a class="headerlink" href="#image13" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first rubric" id="client-side-ssl">Client-side SSL</p>
+<ul class="simple">
+<li><strong>Cipher Type</strong> – cipher type can be a Cipher Group or Cipher
+String. If the former, select a previously-defined cipher group
+(from Local Traffic – Ciphers – Groups). If the latter, enter a
+cipher string that appropriately represents the client-side TLS
+requirement. For most environments, DEFAULT is optimal. For this
+lab, lease Cipher String selected.</li>
+<li><strong>Certificate Key Chain</strong> – the certificate key chain represents
+the certificate and private key used as the “template” for forged
+server certificates. While re-issuing server certificates
+on-the-fly is generally easy, private key creation tends to be a
+CPU-intensive operation. For that reason, the underlying SSL
+Forward Proxy engine forges server certificates from a single
+defined private key. This setting gives customers the opportunity
+to apply their own template private key, and optionally store that
+key in a FIPS-certified HSM for additional protection. The
+built-in “default” certificate and private key uses 2K RSA and is
+generated from scratch when the BIG-IP system is installed. The
+pre-defined default.crt and default.key can be left as is. Click
+Done.</li>
+<li><strong>CA Certificate Key Chain</strong> – an SSL forward proxy must re-sign,
+or “forge” remote server certificate to local clients using a
+local certificate authority (CA) certificate, and local clients
+must trust this local CA. This setting defines the local CA
+certificate and private key used to perform the forging operation.
+Click the pencil icon to Edit, then select subca.f5demolabs.com
+for both Certificate and Key, and click Done.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image24.png"><img alt="image14" src="../../_images/image24.png" style="width: 5.36503in; height: 2.42253in;" /></a></p>
+<ul class="simple">
+<li><strong>[Advanced] Bypass on Handshake Alert</strong> – this setting allows the
+underlying SSL Forward Proxy process to bypass SSL decryption if an
+SSL handshake error is detected on the server side. It is recommended
+to leave this disabled.</li>
+<li><strong>[Advanced] Bypass on Client Certificate Failure</strong> – this setting
+allows the underlying SSL Forward Proxy process to bypass SSL
+decryption if it detects a Certificate request message from the
+server, as in when a server requires mutual certificate
+authentication. It is recommended to leave this disabled.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image25.png"><img alt="image15" src="../../_images/image25.png" style="width: 2.58216in; height: 0.86072in;" /></a></p>
+<ul>
+<li><p class="first rubric" id="server-side-ssl">Server-side SSL</p>
+<ul class="simple">
+<li><strong>Cipher Type</strong> – cipher type can be a Cipher Group or Cipher
+String. If the former, select a previously-defined cipher group
+(from Local Traffic – Ciphers – Groups). If the latter, enter a
+cipher string that appropriately represents the server-side TLS
+requirement. For most environments, DEFAULT is optimal.</li>
+<li><strong>Trusted Certificate Authority</strong> – browser vendors routinely
+update the CA certificate stores in their products to keep up with
+industry security trends, and to account for new and revoked CAs.
+In the SSL forward proxy use case, however, the SSL visibility
+product now performs all server-side certificate validation, in
+lieu of the client browser, and should therefore do its best to
+maintain the <em>same</em> industry security trends. BIG-IP ships with a
+CA certificate bundle that maintains a list of CA certificates
+common to the browser vendors. However, a more comprehensive
+bundle can be obtained from the F5 Downloads site. For this lab,
+select the built-in ca-bundle.crt.</li>
+<li><strong>[Advanced] Expire Certificate Response</strong> – SSLO performs
+validation on remote server certificates and can control what
+happens if it receives an expired server certificate. The options
+are <strong>drop</strong>, which simply drops the traffic, and <strong>ignore</strong>,
+which mirrors an expired forged certificate to the client. The
+default and recommended behavior for forward proxy is to drop
+traffic on an expired certificate.</li>
+<li><strong>[Advanced] Untrusted Certificate Authority</strong> – SSLO performs
+validation on remote server certificates and can control what
+happens if it receives an untrusted server certificate, based on
+the Trusted Certificate Authority bundle. The options are
+<strong>drop</strong>, which simply drops the traffic, and <strong>ignore</strong>, which
+allows the traffic and forges a good certificate to the client.
+The default and recommended behavior for forward proxy is to drop
+traffic on an untrusted certificate.</li>
+<li><strong>[Advanced] OCSP</strong> – this setting selects an existing or can
+create a new OCSP profile for server-side Online Certificate
+Status Protocol (OCSP) and OCSP stapling. With this enabled, if a
+client issues a Status_Request message in its ClientHello message
+(an indication that it supports OCSP stapling), SSLO will issue a
+corresponding Status_Request message in its server-side TLS
+handshake. SSLO will then forge the returned OCSP stapling
+response back to the client. If the server does not respond with a
+staple but contains an Authority Info Access (AIA) field that
+points to an OCSP responder URL, SSLO will perform a separate OCSP
+request. The returned status is then mirrored in the stapled
+client-side TLS handshake. Leave it at —SELECT—-</li>
+<li><strong>[Advanced] CRL</strong> – this setting selects an existing or can
+create a new CRL profile for server- side Certificate Revocation
+List (CRL) validation. With this enabled, SSLO attempts to match
+server certificates to locally-cached CRLs. Leave it at
+—SELECT—-</li>
+</ul>
+</li>
+<li><p class="first">Click Save &amp; Next.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image26.png"><img alt="image16" src="../../_images/image26.png" style="width: 5.03756in; height: 3.14949in;" /></a></p>
+<blockquote>
+<div><img alt="image17" src="../../_images/image18.png" /></div></blockquote>
+<ul>
+<li><p class="first"><strong>Services List</strong> – the Services List page is used to define security
+services that attach to SSLO. The 5.0 SSLO Guided Configuration now
+includes a services catalog that contains common product
+integrations. Beneath each of these catalog options is one of the
+five basic service types. The service catalog also provides “generic”
+security services. Depending on screen resolution, it may be
+necessary to scroll down to see additional services.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image27.png"><img alt="image18" src="../../_images/image27.png" style="width: 6.51364in; height: 1.39583in;" /></a></p>
+<p><a class="reference internal" href="../../_images/image28.png"><img alt="image19" src="../../_images/image28.png" style="width: 5.97848in; height: 4.14554in;" /></a></p>
+<p>This lab will create one of each type of security service. Click Add
+Service button, then either select a service from the catalog and
+click Add, or simply double-click the service to go to its
+configuration page.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Inline layer 2 service</strong> – select the FireEye Inline Layer 2
+service from the catalog and click Add, or simply double-click the
+FireEye Inline Layer 2 service, or any other Inline Layer 2 service
+in the catalog.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image29.png"><img alt="image20" src="../../_images/image29.png" style="width: 4.63194in; height: 2.52835in;" /></a></p>
+<ul class="simple">
+<li><strong>Name</strong> – provide a unique name to this service (example “FireEye”).</li>
+<li><strong>Network Configuration</strong> – paths define the network interfaces that
+take inspectable traffic to the inline service and receive traffic
+from the service. Click Add.<ul>
+<li><strong>Ratio</strong> – inline security services are natively load balanced,
+so this setting defines a ratio, if any for the load balanced pool
+members. Enter 1.</li>
+<li><strong>From BIGIP VLAN</strong> – this is the interface taking traffic to the
+inline service. Select the Create New option, enter a unique name
+(ex. FireEye_in), select the F5 interface connecting to the
+inbound side of the service, and add a VLAN tag value if required.
+For this lab, select interface 1.6.</li>
+<li><strong>To BIGIP VLAN</strong> – this is the interface receiving traffic from
+the inline service. Select the Create New option, enter a unique
+name (ex. FireEye_out), select the F5 interface connecting to the
+outbound side of the service, and add a VLAN tag value if
+required. For this lab, select interface 1.7.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image30.png"><img alt="image21" src="../../_images/image30.png" style="width: 4.85156in; height: 4.70486in;" /></a></p>
+<ul>
+<li><p class="first">Click Done.</p>
+</li>
+<li><p class="first"><strong>Service Action Down</strong> – SSLO also natively monitors the load
+balanced pool of security devices, and if all pool members fail, can
+actively bypass this service (<strong>Ignore</strong>), or stop all traffic
+(<strong>Reset</strong>, <strong>Drop</strong>). For this lab, leave it set to Ignore.</p>
+</li>
+<li><p class="first"><strong>Enable Port Remap</strong> – this setting allows SSLO to remap the port of
+HTTPS traffic flowing across this service. This is advantageous when
+a security service defines port 443 traffic as encrypted HTTPS and
+natively ignores it. By remapping HTTPS traffic to, say, port 8080,
+the security service will inspect the traffic. For this lab, enable
+(check) this option and enter a port value value (ex. 8080).</p>
+</li>
+<li><p class="first"><strong>iRules</strong> – SSLO now allows for the insertion of additional iRule
+logic at different points. An iRule defined at the service only
+affects traffic flowing across this service. It is important to
+understand, however, that these iRules must not be used to control
+traffic flow (ex. pools, nodes, virtuals, etc.), but rather should be
+used to view/modify application layer protocol traffic. For example,
+an iRule assigned here could be used to view and modify HTTP traffic
+flowing to/from the service. Additional iRules are not required,
+however, so leave this empty.</p>
+</li>
+<li><p class="first">Click Save.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image31.png"><img alt="image22" src="../../_images/image31.png" style="width: 5.06923in; height: 5.07986in;" /></a></p>
+<p><a class="reference internal" href="../../_images/image32.png"><img alt="image23" src="../../_images/image32.png" style="width: 3.91610in; height: 3.20486in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Inline layer 3 service</strong> – select the Generic Inline Layer 3
+service from the catalog and click Add, or simply double-click the
+Generic Inline Layer 3 service.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image33.png"><img alt="image24" src="../../_images/image33.png" style="width: 4.82639in; height: 2.59392in;" /></a></p>
+<ul>
+<li><p class="first"><strong>Name</strong> – provide a unique name to this service (example “IPS”).</p>
+</li>
+<li><p class="first"><strong>IP Family</strong> – this setting defines the IP family used with this
+layer 3 service. Leave it set to IPv4.</p>
+</li>
+<li><p class="first"><strong>Auto Manage Addresses</strong> – when enabled the Auto Manage Addresses
+setting provides a set of unique, non-overlapping, non-routable IP
+addresses to be used by the security service. If disabled, the To and
+From IP addresses must be configured manually. It is recommended to
+leave this option enabled (checked).</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image34.png"><img alt="image25" src="../../_images/image34.png" style="width: 5.21474in; height: 2.80374in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>To Service Configuration</strong> – the “To Service” defines the network
+connectivity from SSLO to the inline security device.</p>
+<ul class="simple">
+<li><strong>To Service</strong> – with the Auto Manage Addresses option enabled,
+this IP address will be pre-defined, therefore the inbound side of
+the service must match this IP subnet. With the Auto Manage
+Addresses option disabled, the IP address must be defined
+manually. For this lab, leave the 198.19.64.7/25 address intact.</li>
+<li><strong>VLAN</strong> – select the Create New option, provide a unique name
+(ex. IPS_in), select the F5 interface connecting to the inbound
+side of the service, and add a VLAN tag value if required. For
+this lab, select interface 1.3 and VLAN tag 50.</li>
+</ul>
+</li>
+<li><p class="first"><strong>Service Down Action</strong> – SSLO also natively monitors the load
+balanced pool of security devices, and if all pool members fail, can
+actively bypass this service (<strong>Ignore</strong>), or stop all traffic
+(<strong>Reset</strong>, <strong>Drop</strong>). For this lab, leave it set to Ignore.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image35.png"><img alt="image26" src="../../_images/image35.png" style="width: 5.18938in; height: 2.49653in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>L3 Devices</strong> – this defines the inbound-side IP address of the
+inline layer 3 service, used for routing traffic to this device.
+Multiple load balanced IP addresses can be defined here. Click Add,
+enter 198.19.64.64, then click Done.</p>
+</li>
+<li><p class="first"><strong>From Service Configuration</strong> – the “From Service” defines the
+network connectivity from the inline security device to SSLO.</p>
+<ul class="simple">
+<li><strong>From Service</strong> – with the Auto Manage Addresses option enabled,
+this IP address will be pre-defined, therefore the outbound side
+of the service must match this IP subnet. With the Auto Manage
+Addresses option disabled, the IP address must be defined
+manually. For this lab, leave the 198.19.65.245/25 address intact.</li>
+<li><strong>VLAN</strong> – select the Create New option, provide a unique name
+(ex. IPS_out), select the F5 interface connecting to the outbound
+side of the service, and add a VLAN tag value if required. For
+this lab, select interface 1.3 and VLAN tag 60.</li>
+</ul>
+</li>
+<li><p class="first"><strong>Enable Port Remap</strong> – this setting allows SSLO to remap the port of
+HTTPS traffic flowing across this service. This is advantageous when
+a security service defines port 443 traffic as encrypted HTTPS and
+natively ignores it. By remapping HTTPS traffic to, say, port 8181,
+the security service will inspect the traffic. For this lab, enable
+(check) this option and enter a port value value (ex. 8181).</p>
+</li>
+<li><p class="first"><strong>Manage SNAT Settings</strong> – SSLO now defines an option to enable SNAT
+(source NAT) across an inline layer 3/HTTP service. The primary use
+case for this is horizontal SSLO scaling, where independent SSLO
+devices are scaled behind a separate load balancer but share the same
+inline layer 3/HTTP services. As these devices must route back to
+SSLO, there are now multiple SSLO devices to route back to. SNAT
+allows the layer 3/HTTP device to know which SSLO sent the packets
+for proper routing. SSLO scaling also requires that the Auto Manage
+option be disabled, to provide separate address spaces on each SSLO.
+For this, leave it set to None.</p>
+</li>
+<li><p class="first"><strong>iRules</strong> – SSLO now allows for the insertion of additional iRule
+logic at different points. An iRule defined at the service only
+affects traffic flowing across this service. It is important to
+understand, however, that these iRules must not be used to control
+traffic flow (ex. pools, nodes, virtuals, etc.), but rather should be
+used to view/modify application layer protocol traffic. For example,
+an iRule assigned here could be used to view and modify HTTP traffic
+flowing to/from the service. Additional iRules are not required,
+however, so leave this empty.</p>
+</li>
+<li><p class="first">Click Save.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image36.png"><img alt="image27" src="../../_images/image36.png" style="width: 5.19868in; height: 5.06218in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Inline HTTP service</strong> – an inline HTTP service is defined as an
+explicit or transparent proxy for HTTP (web) traffic. Select the WSA
+HTTP Proxy service from the catalog and click Add, or simply double-
+click the WSA HTTP Proxy service, or any other HTTP Proxy service in
+the catalog.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image37.png"><img alt="image28" src="../../_images/image37.png" style="width: 4.38194in; height: 2.46547in;" /></a></p>
+<ul class="simple">
+<li><strong>Name</strong> – provide a unique name to this service (example “Proxy”).</li>
+<li><strong>IP Family</strong> – this setting defines the IP family used with this
+layer 3 service. Leave it set to IPv4.</li>
+<li><strong>Auto Manage Addresses</strong> – when enabled the Auto Manage Addresses
+setting provides a set of unique, non-overlapping, non-routable IP
+addresses to be used by the security service. If disabled, the To and
+From IP addresses must be configured manually. It is recommended to
+leave this option enabled (checked).</li>
+<li><strong>Proxy Type</strong> – this defines the proxy mode that the inline HTTP
+service is in. For this lab, set this option to Explicit.</li>
+<li><strong>To Service Configuration</strong> – the “To Service” defines the network
+connectivity from SSLO to the inline security device.<ul>
+<li><strong>To Service</strong> – with the Auto Manage Addresses option enabled,
+this IP address will be pre-defined, therefore the inbound side of
+the service must match this IP subnet. With the Auto Manage
+Addresses option disabled, the IP address must be defined
+manually. For this lab, leave the 198.19.96.7/25 address intact.</li>
+<li><strong>VLAN</strong> – select the Create New option, provide a unique name
+(ex. Proxy_in), select the F5 interface connecting to the inbound
+side of the service, and add a VLAN tag value if required. For
+this lab, select interface 1.3 and VLAN tag 110.</li>
+</ul>
+</li>
+<li><strong>Service Down Action</strong> – SSLO also natively monitors the load
+balanced pool of security devices, and if all pool members fail, can
+actively bypass this service (<strong>Ignore</strong>), or stop all traffic
+(<strong>Reset</strong>, <strong>Drop</strong>). For this lab, leave it set to Ignore.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image38.png"><img alt="image29" src="../../_images/image38.png" style="width: 5.05134in; height: 4.88083in;" /></a></p>
+<ul class="simple">
+<li><strong>HTTP Proxy Devices</strong> – this defines the inbound-side IP address of
+the inline HTTP service, used for passing traffic to this device.
+Multiple load balanced IP addresses can be defined here. For a
+transparent proxy HTTP service, only an IP address is required. For
+an explicit proxy HTTP service, the IP address and listening port is
+required. Click Add, enter 198.19.96.66 for the IP Address, and 3128
+for the Port, then click Done.</li>
+<li><strong>From Service Configuration</strong> – the “From Service” defines the
+network connectivity from the inline security device to SSLO.<ul>
+<li><strong>From Service</strong> – with the Auto Manage Addresses option enabled,
+this IP address will be pre-defined, therefore the outbound side
+of the service must match this IP subnet. With the Auto Manage
+Addresses option disabled, the IP address must be defined
+manually. For this lab, leave the 198.19.96.245/25 address intact.</li>
+<li><strong>VLAN</strong> – select the Create New option, provide a unique name
+(ex. Proxy_out), select the F5 interface connecting to the
+outbound side of the service, and add a VLAN tag value if
+required. For this lab, select interface 1.3 and VLAN tag 120.</li>
+</ul>
+</li>
+<li><strong>Manage SNAT Settings</strong> – SSLO now defines an option to enable SNAT
+(source NAT) across an inline layer 3/HTTP service. The primary use
+case for this is horizontal SSLO scaling, where independent SSLO
+devices are scaled behind a separate load balancer but share the same
+inline layer 3/HTTP services. As these devices must route back to
+SSLO, there are now multiple SSLO devices to route back to. SNAT
+allows the layer 3/HTTP device to know which SSLO sent the packets
+for proper routing. SSLO scaling also requires that the Auto Manage
+option be disabled, to provide separate address spaces on each SSLO.
+For this, leave it set to None.</li>
+<li><strong>Authentication Offload</strong> – when an Access authentication profile is
+attached to an explicit forward proxy topology, this option will
+present the authenticated username value to the service as an
+X-Authenticated-User HTTP header. For this lab, leave it disabled
+(unchecked).</li>
+<li><strong>iRules</strong> – SSLO now allows for the insertion of additional iRule
+logic at different points. An iRule defined at the service only
+affects traffic flowing across this service. It is important to
+understand, however, that these iRules must not be used to control
+traffic flow (ex. pools, nodes, virtuals, etc.), but rather should be
+used to view/modify application layer protocol traffic. For example,
+an iRule assigned here could be used to view and modify HTTP traffic
+flowing to/from the service. Additional iRules are not required,
+however, so leave this empty.</li>
+<li>Click Save.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image39.png"><img alt="image30" src="../../_images/image39.png" style="width: 6.29167in; height: 5.86111in;" /></a></p>
+<ul class="simple">
+<li><strong>ICAP service</strong> – an ICAP service is an RFC 3507-defined service
+that provides some set of services over the ICAP protocol. Select the
+Digital Guardian ICAP service from the catalog and click Add, or
+simply double-click the Digital Guardian ICAP service, or any other
+ICAP service in the catalog.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image40.png"><img alt="image31" src="../../_images/image40.png" style="width: 4.74879in; height: 2.52083in;" /></a></p>
+<ul class="simple">
+<li><strong>Name</strong> – provide a unique name to this service (example “DLP”).</li>
+<li><strong>IP Family</strong> – this setting defines the IP family used with this
+layer 3 service. Leave it set to IPv4.</li>
+<li><strong>ICAP Devices</strong> – this defines the IP address of the ICAP service,
+used for passing traffic to this device. Multiple load balanced IP
+addresses can be defined here. Click Add, enter</li>
+</ul>
+<p>10.70.0.10 for the IP Address, and 1344 for the Port, and then click
+Done.</p>
+<ul class="simple">
+<li><strong>ICAP Headers</strong> – select either <strong>Default</strong> or <strong>Custom</strong> to specify
+additional ICAP headers. To add custom headers, select Custom,
+otherwise leave as Default.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image41.png"><img alt="image32" src="../../_images/image41.png" style="width: 3.82292in; height: 3.04290in;" /></a></p>
+<ul class="simple">
+<li><strong>OneConnect</strong> – the F5 OneConnect profile improves performance by
+reusing TCP connections to ICAP servers to process multiple
+transactions. If the ICAP servers do not support multiple ICAP
+transactions per TCP connection, do not enable this option. For this
+lab, leave the OneConnect setting enabled.</li>
+<li><strong>Request URI Path</strong> – this is the RFC 3507-defined URI request path
+to the ICAP service. Each ICAP security vendor will differ with
+respect to request and response URIs, and preview length, so it is
+important to review the vendor’s documentation. In this lab, enter</li>
+</ul>
+<p>/squidclamav.</p>
+<ul class="simple">
+<li><strong>Response URI Path</strong> – this is the RFC 3507-defined URI response
+path to the ICAP service. Each ICAP security vendor will differ with
+respect to request and response URIs, and preview length, so it is
+important to review the vendor’s documentation. In this lab, enter</li>
+</ul>
+<p>/squidclamav.</p>
+<ul class="simple">
+<li><strong>Preview Max Length(bytes)</strong> – this defines the maximum length of
+the ICAP preview. Each ICAP security vendor will differ with respect
+to request and response URIs, and preview length, so it is important
+to review the vendor’s documentation. A zero-length preview length
+implies that data will be streamed to the ICAP service, similar to an
+HTTP 100/Expect process, while any positive integer preview length
+defines the amount of data (in bytes) that are transmitted first,
+before streaming the remaining content. The ICAP service in this lab
+environment does not support a complete stream, so requires a modest
+amount of initial preview. In this lab, enter 524288.</li>
+<li><strong>Service Down Action</strong> – SSLO also natively monitors the load
+balanced pool of security devices, and if all pool members fail, can
+actively bypass this service (<strong>Ignore</strong>), or stop all traffic
+(<strong>Reset</strong>, <strong>Drop</strong>). For this lab, leave it set to Ignore.</li>
+<li><strong>HTTP Version</strong> – this defines whether SSLO sends HTTP/1.1 and
+HTTP/1.0 requests to the ICAP service.</li>
+<li><strong>ICAP Policy</strong> – an ICAP policy is a pre-defined LTM CPM policy that
+can be configured to control access to the ICAP service based on
+attributes of the HTTP request or response. ICAP processing is
+enabled by default, so an ICAP CPM policy can be used to disable the
+request and/or response ADAPT profiles.</li>
+<li>Click Save.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image42.png"><img alt="image33" src="../../_images/image42.png" style="width: 4.11806in; height: 1.92544in;" /></a></p>
+<ul class="simple">
+<li><strong>TAP service</strong> – a TAP service is a passive device that simply
+receives a copy of traffic. Select the Cisco Sourcefire TAP service
+from the catalog and click Add, or simply Double-click the Cisco
+Sourcefire TAP service, or any other TAP service in the catalog.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image43.png"><img alt="image34" src="../../_images/image43.png" style="width: 3.44097in; height: 1.82078in;" /></a></p>
+<ul class="simple">
+<li><strong>Name</strong> - provide a unique name to this service (example “TAP”).</li>
+<li><strong>Mac Address</strong> – for a tap service that is not directly connected to
+the F5, enter the device’s MAC address. For a tap service that is
+directly connected to the F5, the MAC address does not matter and can
+be arbitrarily defined. For this lab, enter 12:12:12:12:12:12.</li>
+<li><strong>VLAN</strong> – this defines the interface connecting the F5 to the TAP
+service. Click Create New and provide a unique name (ex. TAP_in).</li>
+<li><strong>Interface</strong> – select the 1.4 interface.</li>
+<li><strong>Enable Port Remap</strong> – this setting allows SSLO to remap the port of
+HTTPS traffic flowing to this service. For this lab, leave the option
+disabled (unchecked).</li>
+<li>Click Save.</li>
+<li>Click Save &amp; Next.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image44.png"><img alt="image35" src="../../_images/image44.png" style="width: 4.21554in; height: 4.56597in;" /></a></p>
+<p><a class="reference internal" href="../../_images/image45.png"><img alt="image36" src="../../_images/image45.png" style="width: 4.21528in; height: 3.34546in;" /></a></p>
+<blockquote>
+<div><img alt="image37" src="../../_images/image2.png" /></div></blockquote>
+<ul class="simple">
+<li><strong>Service Chain List</strong> – service chains are arbitrarily-ordered lists
+of security devices. Based on environmental requirements, different
+service chains may contain different re-used sets of services, and
+different types of traffic can be assigned to different service
+chains. For example, HTTP traffic may need to go through all of the
+security services, while non-HTTP traffic goes through a subset, and
+traffic destined to a financial service URL can bypass decryption and
+still flow through a smaller set of security services.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image47.png"><img alt="image38" src="../../_images/image47.png" style="width: 3.65625in; height: 2.13419in;" /></a></p>
+<ul class="simple">
+<li>Click Add to create a new service chain containing all of the
+security services.</li>
+<li><strong>Name</strong> – provide a unique name to this service (ex.
+“my_service_chain”).</li>
+<li><strong>Services</strong> – select any number of desired service and move them
+into the <strong>Selected Service Chain Order</strong> column, optionally also
+ordering them as required. In this lab, select all of the services.</li>
+<li>Click Save.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image48.png"><img alt="image39" src="../../_images/image48.png" style="width: 3.95833in; height: 2.38041in;" /></a></p>
+<ul class="simple">
+<li>Click Add to create a new service chain for just the L2 (ex. FireEye)
+and TAP services.<ul>
+<li><strong>Name</strong> – provide a unique name to this service (ex.
+“my_sub_service_chain”).</li>
+<li><strong>Services</strong> – select the inline layer 2 ssloS_FireEye and
+ssloS_TAP services.</li>
+<li>Click Save.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image49.png"><img alt="image40" src="../../_images/image49.png" style="width: 5.21439in; height: 3.04768in;" /></a></p>
+<ul class="simple">
+<li>Click Save &amp; Next</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image50.png"><img alt="image41" src="../../_images/image50.png" style="width: 5.71643in; height: 3.71503in;" /></a></p>
+<blockquote>
+<div><img alt="image42" src="../../_images/image2.png" /></div></blockquote>
+<ul>
+<li><p class="first"><strong>Security Policy</strong> – security policies are the set of rules that
+govern how traffic is processed in SSLO. The “actions” a rule can
+take include,</p>
+<ul class="simple">
+<li>Whether or not to allow the traffic</li>
+<li>Whether or not to decrypt the traffic</li>
+<li>Which service chain (if any) to pass the traffic through</li>
+</ul>
+<blockquote>
+<div><p>The SSLO Guided Configuration presents an intuitive rule-based,
+drag-and-drop user interface for the definition of security
+policies.</p>
+<p><img alt="image43" src="../../_images/image51.png" /></p>
+<p>In the background, SSLO maintains these security policies as visual
+per-request policies. If traffic processing is required that exceeds
+the capabilities of the rule-based user interface, the underlying
+per-request policy can be managed directly.</p>
+<p>For the lab, create an additional rule to bypass SSL for “Financial
+Data and Services” and “Health and Medicine” URL categories.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Click Add to create a new rule.</p>
+<ul>
+<li><p class="first"><strong>Name</strong> – provide a unique name for the rule (ex.
+“urlf_bypass”).</p>
+</li>
+<li><p class="first rubric" id="conditions">Conditions</p>
+<ul class="simple">
+<li>Select <strong>HTTP Connect Catagory</strong></li>
+<li><strong>Category Lookup (All)</strong> – add Financial Data and Services and
+Health and Medicine.</li>
+</ul>
+</li>
+<li><p class="first"><strong>Action</strong> – select Allow.</p>
+</li>
+<li><p class="first"><strong>Service Chain</strong> – select the ssloSC_my_sub_service_chain
+L2/TAP service chain.</p>
+</li>
+<li><p class="first">Click OK.</p>
+</li>
+</ul>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image53.png"><img alt="image44" src="../../_images/image53.png" style="width: 6.01691in; height: 1.63731in;" /></a></p>
+<p>Notice in the list of rules that the <strong>All Traffic</strong> rule intercepts
+but does not send traffic to a service chain. For the lab, edit this
+rule to send all intercepted traffic to a service chain.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Click the pencil icon to edit this rule.</p>
+</li>
+<li><p class="first">Service Chain – select the service chain containing all of the
+services.</p>
+</li>
+<li><p class="first">Click OK.</p>
+<blockquote>
+<div><p><img alt="image45" src="../../_images/image54.png" /></p>
+<p>Click Save &amp; Next.</p>
+<p><img alt="image46" src="../../_images/image2.png" /></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Interception Rule</strong> – interception rules are based on the selected
+topology and define the “listeners”, analogous to LTM virtual
+servers, that accept and process different types of traffic (ex. TCP,
+UDP, other). The resulting LTM virtual servers will bind the SSL
+settings, VLANs, IPs, and security policies created in the topology
+workflow.</p>
+<ul class="simple">
+<li><strong>Ingress Network (VLANs)</strong> – this defines the VLANs through which
+traffic will enter. For a transparent forward proxy topology, this
+would be a client-side VLAN. Select client-net.</li>
+<li><strong>L7 Interception Rules</strong> – FTP and email protocol traffic are all
+“server-speaks-first” protocols, and therefore SSLO must process
+these separately from typical client-speaks-first protocols like
+HTTP. This selection enables processing of each of these
+protocols, which create separate port-based listeners for each. As
+required, selectively enable the additional protocols that need to
+be decrypted and inspected through SSLO. Select FTP, IMAP, POP3
+and SMTP</li>
+<li>Click Save &amp; Next.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image56.png"><img alt="image47" src="../../_images/image56.png" style="width: 4.32124in; height: 3.76055in;" /></a></p>
+<blockquote>
+<div><p><img alt="image48" src="../../_images/image2.png" /></p>
+<p><strong>Egress Setting</strong> – traffic egress settings are now defined
+per-topology and manage both the gateway route and outbound SNAT
+settings.</p>
+</div></blockquote>
+<ul>
+<li><p class="first"><strong>Manage SNAT Settings</strong> – enables per-topology instance SNAT
+settings. For this lab, select Auto Map.</p>
+</li>
+<li><p class="first"><strong>Gateways</strong> – enables per-topology instance gateway routing. Options
+are to use the system default route, to use an existing gateway pool,
+or to create a new gateway. For this lab, select Create New.</p>
+</li>
+<li><p class="first"><strong>IPv4 Outbound Gateways</strong> – when creating a new gateway, this
+section provides the ratio and gateway address settings.</p>
+</li>
+<li><p class="first"><strong>Ratio</strong> – multiple gateway IP addresses are load balanced in an LTM
+pool, and the ratio setting allows SSLO to proportion traffic to the
+gateway members, as required. A ratio on 1 for all members evenly
+distributes the load across them. For this lab, select 1.</p>
+</li>
+<li><p class="first"><strong>Address</strong> – this is the next hop gateway IP address. For this lab,
+enter 10.30.0.1.</p>
+</li>
+<li><p class="first">Click Save &amp; Next.</p>
+<blockquote>
+<div><p><img alt="image49" src="../../_images/image2.png" /></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Summary</strong> – the summary page presents an expandable list of all of
+the workflow-configured objects. To expand the details for any given
+setting, click the corresponding arrow icon on the far right. To edit
+any given setting, click the corresponding pencil icon. Clicking the
+pencil icon will send the workflow back to the selected settings
+page.</p>
+<blockquote>
+<div><p>o When satisfied with the defined settings, click Deploy.</p>
+<p>Upon successfully deploying the configuration, SSL Orchestrator will
+now display a <strong>Dashboard</strong> view:</p>
+<p><a class="reference internal" href="../../_images/image57.jpeg"><img alt="image50" src="../../_images/image57.jpeg" style="width: 7.03530in; height: 3.98750in;" /></a></p>
+<p>The <strong>Interception Rules</strong> tab shows the listeners that were created
+per the selected topology.</p>
+<p><a class="reference internal" href="../../_images/image58.png"><img alt="image51" src="../../_images/image58.png" style="width: 7.05191in; height: 2.83594in;" /></a></p>
+<p>In the above,</p>
+</div></blockquote>
+</li>
+<li><p class="first">The <strong>-in-t-4</strong> listener defines normal TCP IPv4 traffic.</p>
+</li>
+<li><p class="first">The <strong>-in-u-4</strong> listener defines normal UDP IPv4 traffic.</p>
+</li>
+<li><p class="first">The <strong>-ot-4</strong> listener defines normal non-TCP/non-UDP IPv4 traffic.</p>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>-ftp</strong>, <strong>-ftps</strong>, <strong>-pop3</strong>, <strong>-smtp25</strong> and <strong>-smtp587</strong></dt>
+<dd><p class="first last">listeners create paths for each respective protocol.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="step-4-test-the-solution">
+<h2>3.2.1.4. Step 4: Test the solution<a class="headerlink" href="#step-4-test-the-solution" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>To test the deployed solution, use the following options:</div></blockquote>
+<ul class="simple">
+<li></li>
+<li></li>
+<li></li>
+</ul>
+</div>
+</div>
+<div class="section" id="lab-2-create-a-gateway-reverse-proxy-sslo">
+<h1>3.2.2. LAB 2 – CREATE A GATEWAY REVERSE PROXY SSLO<a class="headerlink" href="#lab-2-create-a-gateway-reverse-proxy-sslo" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>SSL Orchestrator generally defines inbound traffic flows with a
+“gateway” architecture. That is, SSLO is designed to sit in front of
+a separate ADC/load balancer or routed path, and not directly in
+front of applications, though it is technically possible to support
+a “single instance” listener going to a single pool of resources.
+This lab will be re- using the security services created in the
+first lab to create a single inbound “gateway” service SSLO
+configuration.</div></blockquote>
+<div class="section" id="step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints">
+<h2>3.2.2.1. Step 1: Review the lab diagram and map out the services and endpoints<a class="headerlink" href="#step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Specifically, note that in this lab there is a web server on the
+internal network (the client’s network in this case) that external
+users want to get to. An external client desktop exists on the
+external/outbound network, that accesses these resources through
+SSLO.</div></blockquote>
+<ul>
+<li><p class="first">The external client is attached to a <em>10.30.0.0/24</em> network and is
+assigned the IP <em>10.30.0.70</em>. This network is attached to the BIG-IP
+1.2 interface.</p>
+</li>
+<li><p class="first">The web server is an Ubuntu 14.04 LTS server configured with Apache2
+and PHP5, and listens on five addresses:</p>
+<blockquote>
+<div><p>o 10.20.0.90</p>
+<p>o 10.20.0.91</p>
+<p>o 10.20.0.92</p>
+<p>Each instance includes a simple Apache2 text page that also shows
+which site was accessed. The pages are all (only) hosted via HTTPS
+port 443.</p>
+</div></blockquote>
+</li>
+<li><p class="first">In lieu of a separate DNS server in the lab, the external client has
+static /etc/hosts entries that map the above addresses to the
+following URLs, respectively:</p>
+<blockquote>
+<div><p>o test0.f5demolabs.com o test1.f5demolabs.com o test3.f5demolabs.com</p>
+</div></blockquote>
+</li>
+<li><p class="first">A wildcard (*.f5demolabs.com) server certificate and private key
+have been installed on the SSL Orchestrator.</p>
+<blockquote>
+<div><p>The external client has two options for accessing the internal
+websites: via wildcard (0.0.0.0/0) gateway, and direct IP listener.
+The lab will explore both options below.</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="step-2-configure-an-l3-inbound-sslo-deployment-through-guided-configuration">
+<h2>3.2.2.2. Step 2: Configure an L3 inbound SSLO deployment through Guided Configuration<a class="headerlink" href="#step-2-configure-an-l3-inbound-sslo-deployment-through-guided-configuration" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>In this scenario, an SSLO L3 inbound listener is configured as a
+gateway service. It will listen on a wildcard VIP (0.0.0.0/0), or
+otherwise specific subnet (vs. a dedicated single IP), and terminate
+inbound TLS traffic flows via wildcard or subject alternative name
+(SAN) certificate.</div></blockquote>
+<ul>
+<li><p class="first">Select the SSL Orchestrator then select Configuration.</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image61.png"><img alt="image53" src="../../_images/image61.png" style="width: 5.60420in; height: 2.95878in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first">In the SSL Orchestrator dashboard view, select the Topologies tab
+(bottom) and click Add.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image62.png"><img alt="image54" src="../../_images/image62.png" style="width: 4.93007in; height: 3.66321in;" /></a></p>
+<ul class="simple">
+<li><strong>Configuration review and prerequisites</strong> – take a moment to review
+the topology options and workflow configuration, then click Next.</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image63.png"><img alt="image55" src="../../_images/image63.png" style="width: 4.37545in; height: 5.17098in;" /></a></p>
+<ul>
+<li><p class="first rubric" id="topology-properties">Topology Properties</p>
+<ul class="simple">
+<li><strong>Name</strong>: sslo_inbound_1</li>
+<li><strong>Protocol</strong>: TCP</li>
+<li><strong>IP Family</strong>: IPv4</li>
+<li><strong>Topology</strong>: select L3 Inbound</li>
+<li>Click Save &amp; Next</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image64.png"><img alt="image56" src="../../_images/image64.png" style="width: 4.39896in; height: 5.08724in;" /></a></p>
+<ul>
+<li><p class="first"><strong>SSL Configuration</strong> – an inbound topology requires different SSL
+settings.</p>
+<ul class="simple">
+<li>Click Show Advanced Setting</li>
+</ul>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image65.png"><img alt="image57" src="../../_images/image65.png" style="width: 4.60587in; height: 2.13990in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first rubric" id="client-side-ssl-1">Client-side SSL</p>
+<ul class="simple">
+<li><strong>Cipher Type</strong>: Cipher String</li>
+<li><strong>Cipher String</strong>: DEFAULT</li>
+<li><strong>Certificate Key Chain</strong> – the certificate key chain represents
+the certificate and private key of an endpoint server instance
+(the target of a remote client’s request). In a gateway-mode
+configuration, this would typically be a wildcard of Subject
+Alternative Name (SAN) certificate in the event the SSLO inbound
+listener was intended to service multiple sites. In this lab a
+wildcard certificate has been provided. Select the pencil icon to
+edit, then select the wildcard.f5demolabs.com certificate and
+private key and click Done.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image66.png"><img alt="image58" src="../../_images/image66.png" style="width: 3.57956in; height: 3.18805in;" /></a></p>
+<ul>
+<li><p class="first rubric" id="server-side-ssl-1">Server-side SSL</p>
+<ul class="simple">
+<li><strong>Cipher Type</strong>: Cipher String</li>
+<li><strong>Cipher String</strong>: DEFAULT</li>
+<li><strong>Trusted Certificate Authority</strong> – as an inbound solution, the
+server-side SSL would be pointing to internal servers. While
+definitely possible to perform validation against internal server
+certificates, it is likely less important to do so. Leave this
+setting as is.</li>
+</ul>
+</li>
+<li><p class="first"><strong>Expire Certificate Response</strong> – Assuming no internal certificate
+validation is needed, the default <strong>drop</strong> setting will cause the
+connection to fail, so set this to Ignore.</p>
+</li>
+<li><p class="first"><strong>Untrusted Certificate Authority</strong> – Assuming no internal
+certificate validation is needed, the default <strong>drop</strong> setting will
+cause the connection to fail, so set this to Ignore.</p>
+</li>
+<li><p class="first"><strong>[Advanced] OCSP</strong> – Assuming no internal certificate validation is
+needed, any OCSP configuration will cause the connection to fail, so
+leave this as is.</p>
+</li>
+<li><p class="first"><strong>[Advanced] CRL</strong> – Assuming no internal certificate validation is
+needed, any CRL configuration will cause the connection to fail, so
+leave this as is.</p>
+</li>
+<li><p class="first">Click Save &amp; Next.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image67.png"><img alt="image59" src="../../_images/image67.png" style="width: 5.23803in; height: 3.53368in;" /></a></p>
+<ul>
+<li><p class="first"><strong>Services List</strong> – the same services can be leveraged here, so
+simply click Save &amp; Next.</p>
+</li>
+<li><p class="first"><strong>Service Chain List</strong> – the same service chains can be leveraged
+here, so simply click Save &amp; Next.</p>
+</li>
+<li><p class="first"><strong>Security Policy</strong> – the security policy requirements are specific
+to each organization, though an inbound security policy would likely
+be less complex than an outbound policy.</p>
+</li>
+<li><p class="first">Delete the built-in “Pinners_Rule”, edit the “All Traffic” policy to
+add the service chain with the L2 and TAP services (only),</p>
+<blockquote>
+<div><p><a class="reference internal" href="../../_images/image68.png"><img alt="image60" src="../../_images/image68.png" style="width: 6.33743in; height: 2.00518in;" /></a></p>
+</div></blockquote>
+</li>
+<li><p class="first">Click Save &amp; Next.</p>
+</li>
+<li><p class="first"><strong>Interception Rule</strong> – here is where a gateway-mode topology and the
+existing application topology generally differ. Where an explicit
+application topology “bolts onto” an existing application that
+performs its own SSL management (SSL offload), traffic management
+(pools) and traffic intelligence (iRules, profiles), the gateway-mode
+SSLO topology provides a single, generic entry point for potentially
+multiple applications, and would sit <em>in front of</em> another ADC or
+routing device. This is mostly useful when an SSL visibility device
+must sit closer to the outer edge of an environment, and/or when the
+SSL visibility product “owner” does not otherwise own the
+applications or ADC(s).</p>
+<blockquote>
+<div><p>It is possible to configure an L3 Inbound topology configuration
+with a single target IP address and port and destination pool
+(targeted mode). However, an L3 Inbound topology must re-encrypt the
+inbound traffic. For this lab choose Gateway Mode</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Gateway mode</strong> – interception rule listening on a wildcard IP, port
+443, with a wildcard or SAN certificate. Clients route through SSLO.</p>
+<ul class="simple">
+<li>Click Hide Advanced Setting</li>
+<li><strong>Source Address</strong>: 0.0.0.0/0</li>
+<li><strong>Destination Address/Mask</strong>: 0.0.0.0/0</li>
+<li><strong>Port</strong>: 443</li>
+<li><strong>VLANs</strong>: outbound (this is the server-side VLAN)</li>
+<li><strong>[Protocol Settings] L7 Profile Type</strong> – this setting enables or
+disables HTTP processing. Select HTTP</li>
+<li><strong>[Protocol Settings] L7 Profile</strong> – if the above option is set to
+HTTP, this option selects a specific HTTP profile. Set to HTTP and
+/Common/http.</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="../../_images/image69.png"><img alt="image61" src="../../_images/image69.png" style="width: 4.26416in; height: 4.77202in;" /></a></p>
+<ul>
+<li><p class="first"><strong>Summary</strong> – the summary page presents an expandable list of all of
+the workflow-configured objects. To expand the details for any given
+setting, click the corresponding arrow icon on the far right. To edit
+any given setting, click the corresponding pencil icon. Clicking the
+pencil icon will send the workflow back to the selected settings
+page.</p>
+<blockquote>
+<div><p>o When satisfied with the defined settings, click Deploy.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Testing</strong> – for gateway-mode testing, the lab’s inbound desktop
+client includes static Hosts entries that match the <em>real</em> IPs of the
+internal web server,</p>
+<blockquote>
+<div><p>test0.f5demolabs.com = 10.20.0.90 test1.f5demolabs.com = 10.20.0.91
+test3.f5demolabs.com = 10.20.0.92</p>
+<p>and a static persistent route that points 10.1.10.0/24 traffic to
+the BIG-IP outbound (external) VLAN self- IP (10.1.20.100).
+<a class="reference external" href="http://www.f5demolabs.com/">*www.f5demolabs.com *</a>=
+10.30.0.200</p>
+</div></blockquote>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="lab-3-create-an-explicit-forward-proxy-sslo">
+<h1>3.2.3. LAB 3 – CREATE AN EXPLICIT FORWARD PROXY SSLO<a class="headerlink" href="#lab-3-create-an-explicit-forward-proxy-sslo" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>SSL Orchestrator creates discreet, non-overlapping interception
+rules (listeners) based on the selected topology. For example, the
+explicit forward proxy workflow minimally creates an explicit proxy
+listener and relying transparent proxy listener attached to the
+explicit proxy tunnel. If a separate transparent proxy workflow was
+created, the resulting listener would not conflict with or overlap
+the existing transparent proxy listener. Therefore, assuming a
+transparent forward proxy already exists from Lab 1, the following
+workflow will create a separate set of non-overlapping listeners to
+satisfy an explicit forward proxy use case.</div></blockquote>
+<div class="section" id="id3">
+<h2>3.2.3.1. Step 1: Review the lab diagram and map out the services and endpoints<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Review the same step in Lab 1 for more details. This lab uses the
+exact same environment, so SSL settings, services, service chains
+and security policy will be re-used.</div></blockquote>
+</div>
+<div class="section" id="step-2-configure-an-explicit-proxy-sslo-deployment-through-guided-configuration">
+<h2>3.2.3.2. Step 2: Configure an explicit proxy SSLO deployment through Guided Configuration<a class="headerlink" href="#step-2-configure-an-explicit-proxy-sslo-deployment-through-guided-configuration" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Configuration review and prerequisites</strong> – take a moment to review
+the topology options and workflow configuration, then click Next.</p>
+</li>
+<li><p class="first rubric" id="click-on-topologies-then-click-add">Click on Topologies then click Add</p>
+</li>
+</ul>
+<div class="section" id="image62">
+<h3>3.2.3.2.1. <a class="reference internal" href="../../_images/image62.png"><img alt="image62" src="../../_images/image62.png" style="width: 4.98446in; height: 3.70355in;" /></a><a class="headerlink" href="#image62" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first rubric" id="click-next">Click NEXT</p>
+</li>
+</ul>
+</div>
+<div class="section" id="image63">
+<h3>3.2.3.2.2. <a class="reference internal" href="../../_images/image70.png"><img alt="image63" src="../../_images/image70.png" style="width: 4.89997in; height: 4.26113in;" /></a><a class="headerlink" href="#image63" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first rubric" id="topology-properties-1">Topology Properties</p>
+<ul class="simple">
+<li><strong>Name</strong>: provide some name (ex. “sslo_explicit”)</li>
+<li><strong>Protocol</strong>: TCP</li>
+<li><strong>IP Family</strong>: IPv4</li>
+<li><strong>Topology</strong>: select L3 Explicit Proxy</li>
+<li>Click Save &amp; Next</li>
+</ul>
+</li>
+<li><p class="first"><strong>SSL Configurations</strong> – the existing outbound SSL settings from Lab
+1 can be re-used here.</p>
+<ul class="simple">
+<li><strong>SSL Profile</strong>: Use Existing, select existing outbound SSL
+settings.</li>
+<li>Click Save &amp; Next</li>
+</ul>
+</li>
+<li><p class="first"><strong>Services List</strong> – there are no new services to create.</p>
+<ul class="simple">
+<li>Click Save &amp; Next</li>
+</ul>
+</li>
+<li><p class="first"><strong>Service Chain List</strong> – there are no new service chains to create.</p>
+<blockquote>
+<div><p>o Click Save &amp; Next</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Security Policy</strong> – the existing outbound Security Policy from Lab
+1 can be re-used here.</p>
+</li>
+<li><p class="first"><strong>Type</strong>: Use Existing, select existing outbound SSL settings.</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Interception Rule</strong> – an explicit proxy requires a unique IP
+address and port listener.</p>
+<blockquote>
+<div><p>o <strong>IPV4 Address</strong>: 10.20.0.150</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Port</strong>: 3128</p>
+</li>
+<li><p class="first"><strong>Access Profile</strong>: if enabling explicit proxy authentication, select
+an existing SWG-Explicit access profile here.</p>
+</li>
+<li><p class="first"><strong>VLANs</strong>: client-net</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Egress Setting</strong> – traffic egress settings are now defined
+per-topology and manage both the gateway route and outbound SNAT
+settings.</p>
+</li>
+<li><p class="first"><strong>Manage SNAT Settings</strong> – enables per-topology instance SNAT
+settings. For this lab, select Auto Map.</p>
+</li>
+<li><p class="first"><strong>Gateways</strong> – enables per-topology instance gateway routing. Options
+are to use the system default route, to use an existing gateway pool,
+or to create a new gateway. For this lab, select Use Existing Gateway
+Pool, then select the “-ex-pool-4” gateway pool.</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Summary</strong> – the summary page presents an expandable list of all of
+the workflow-configured objects. To expand the details for any given
+setting, click the corresponding arrow icon on the far right. To edit
+any given setting, click the corresponding pencil icon. Clicking the
+pencil icon will send the workflow back to the selected settings
+page.</p>
+<blockquote>
+<div><p>o When satisfied with the defined settings, click Deploy.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Testing</strong> – configure the browser to use 10.20.0.150:3128 for
+explicit proxy access. An explicit proxy request test can also be
+done using command-line cURL:</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="step-3-add-dns-and-logging-settings">
+<h2>3.2.3.3. Step 3: Add DNS and Logging settings<a class="headerlink" href="#step-3-add-dns-and-logging-settings" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Minimally an explicit proxy requires DNS settings. To enable this
+for the L3 Explicit topology, in the SSLO UI click System Settings.</div></blockquote>
+<ul class="simple">
+<li><strong>DNS Query Resolution</strong> – select Local Forwarding Nameserver.</li>
+<li><strong>Local Forwarding Nameserver(s)</strong> – enter 10.30.0.1.</li>
+<li><dl class="first docutils">
+<dt><strong>[Optional] Logging Level</strong> – select the logging level most</dt>
+<dd>appropriate for the deployment. Keep in mind, however, that DEBUG
+logging produces an enormous amount of local Syslog traffic and
+is not recommended when processing production traffic flows.</dd>
+</dl>
+</li>
+<li>Click Deploy to commit the changes.</li>
+</ul>
+</div>
+<div class="section" id="step-4-optional-add-explicit-proxy-authentication">
+<h2>3.2.3.4. Step 4: [Optional] Add explicit proxy authentication<a class="headerlink" href="#step-4-optional-add-explicit-proxy-authentication" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Enabling explicit proxy authentication in SSLO requires two steps,</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt><strong>Create an SWG-Explicit access policy</strong> – explicit proxy</dt>
+<dd><blockquote class="first">
+<div><p>authentication is defined as an access policy of type
+SWG-Explicit.</p>
+</div></blockquote>
+<p><img alt="image64" src="../../_images/image71.png" /></p>
+<p>This policy will typically contain an HTTP 407 Response challenge,
+and then some form of authentication, which could HTTP Basic, NTLM
+or Kerberos.</p>
+<p class="last"><img alt="image65" src="../../_images/image73.png" /></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a href="#id4"><span class="problematic" id="id5">**</span></a>Create or edit an Explicit Proxy SSLO topology and attach the</dt>
+<dd><p class="first last">SWG-Explicit access policy** – to attach the SWG-Explicit access
+policy to SSLO, create or edit an Explicit proxy SSLO topology.
+On the Interception Rules page, select this policy under the
+<strong>Access Profile</strong> option.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="lab-4-delete-an-sslo-configuration">
+<h1>3.2.4. LAB 4 – DELETE AN SSLO CONFIGURATION<a class="headerlink" href="#lab-4-delete-an-sslo-configuration" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>One of the benefits of the new SSLO architecture is that
+configurations can be edited, deployed and re-deployed without
+affecting existing traffic flows. For this capability, the SSLO
+packaging is now broken into separate independent components. When
+deleting a defined topology, most of the attached components are
+also deleted. However, some objects, particularly those that can be
+consumed by multiple topologies, are not automatically deleted. This
+lab explores the different methods for deleting SSL Orchestrator
+objects.</div></blockquote>
+<div class="section" id="step-1-deleting-a-topology">
+<h2>3.2.4.1. Step 1: Deleting a topology<a class="headerlink" href="#step-1-deleting-a-topology" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Deleting a topology will also delete any relying Interception Rules.
+The deletion process performs a complex set of REST-based tasks,
+therefore only one topology can be deleted at a time. In the SSLO
+UI, select a topology and click the Delete button. Confirm that both
+the topology and respective interception rules are removed.</div></blockquote>
+</div>
+<div class="section" id="step-2-deleting-other-objects">
+<h2>3.2.4.2. Step 2: Deleting other objects<a class="headerlink" href="#step-2-deleting-other-objects" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>While deleting a topology also removes its respective interception
+rules, it does not remove the other objects - services, service
+chains, security policies and SSL settings. These can all be removed
+individually, however must be deleted in a hierarchical order. Once
+the topology and interception rules have been deleted,</div></blockquote>
+<ul class="simple">
+<li>SSL Settings can be deleted any time</li>
+<li>Delete any unused Security Policies</li>
+<li>Delete any unused Service Chains</li>
+<li>Delete any unused Services</li>
+</ul>
+</div>
+<div class="section" id="step-3-deleting-everything">
+<h2>3.2.4.3. Step 3: Deleting everything<a class="headerlink" href="#step-3-deleting-everything" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>To completely remove the SSLO configuration and start from scratch,</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>In the SSLO UI, click Delete Configurations and then click OK. This</dt>
+<dd><p class="first last">process will take some time as SSLO walks through all of the
+objects and dependencies to remove all configurations.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Under the iApps menu, Application Services, Applications LX –</dt>
+<dd><p class="first last">un-deploy any remaining SSL orchestrator objects. If using any
+other Guided Configuration engine (ex. Access GC), ensure that
+only SSLO objects are deleted here.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Under the iApps menu, Templates, Templates LX – delete all of the SSL</dt>
+<dd><p class="first last">Orchestrator templates.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Under the iApps menu, Package management LX – delete the SSL</dt>
+<dd><blockquote class="first">
+<div><p>Orchestrator package.</p>
+</div></blockquote>
+<p class="last">The next time the SSL Orchestrator configuration menu is accessed,
+SSLO will automatically restore the on-box package.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="optional-deleting-everything-the-hard-way">
+<h2>3.2.4.4. Optional: Deleting everything…the hard way<a class="headerlink" href="#optional-deleting-everything-the-hard-way" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>In the unlikely event that the above steps do not work, and some
+SSLO objects remain and cannot be deleted, one of the following
+steps can be used,</div></blockquote>
+<ul class="simple">
+<li>If the topology and interception rules are gone but other objects
+remain and will not uninstall in the SSL Orchestrator UI, in the
+BIG-IP UI navigate to iApps -&gt; Application Services -&gt; Applications
+LX. The remaining objects will all be here in states of deployed
+(green), undeployed (gray), and error (red). Delete any objects in an
+error state and toggle the other objects from deployed to undeployed
+and back until they enter an error state and can also be deleted.</li>
+<li>If the above fails, the following script can be used to automate
+destruction of SSLO objects.<ul>
+<li>Copy the script to the BIG-IP (ex. cleaner.sh)</li>
+<li>Chmod the script to give it execute privileges: chmod +x
+cleaner.sh</li>
+<li>Execute the script: ./cleaner.sh</li>
+<li>It will typically be necessary to execute the script several times
+to get through dependencies. It is completely done when the script
+returns quickly with no additional output. Validate that all SSLO
+objects are gone from the BIG-IP UI under the Local Traffic and
+Network sections.</li>
+<li>Under the iApps menu, Application Services, Applications LX –
+un-deploy any remaining SSL orchestrator objects. If using any
+other Guided Configuration engine (ex. Access GC), ensure that
+only SSLO objects are deleted here.</li>
+<li>Under the iApps menu, Templates, Templates LX – delete all of the
+SSL Orchestrator templates.</li>
+<li>Under the iApps menu, Package management LX – delete the SSL
+Orchestrator package.</li>
+</ul>
+</li>
+<li>If the above fails, manually clear the REST database from the command
+line,</li>
+<li>Break any HA configuration</li>
+<li>Issue the ‘clear-rest-storage [options]’ command, where the options
+are “-l” (lowercase L) to delete the restjavad log files as well as
+the stored state, and “-d” to reset the system configuration to
+default. This command will remove all SSL Orchestrator objects from
+the restnoded database. After issuing this command, follow with
+‘bigstart restart restnoded’ and ‘bigstart restart restjavad’, clear
+the browser cache, log out and back in.</li>
+<li>Issue the ‘tmsh delete sys application service recursive’ command to
+also delete any remaining SSL Orchestrator application service
+objects.</li>
+<li>Once all SSLO objects have been removed, also uninstall the SSLO RPM
+package under the iApps menu, Package management LX – delete the SSL
+Orchestrator package.</li>
+<li>Rebuild HA and redeploy SSLO by navigating to the SSL Orchestrator
+configuration UI. On first visit it will automatically restore the
+on-box package.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="troubleshoot-sslo">
+<h1>3.2.5. TROUBLESHOOT SSLO<a class="headerlink" href="#troubleshoot-sslo" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>While the SSL Orchestrator product has certainly evolved, as with
+anything in the computing world, problems are usually inevitable and
+poorly timed. In the event that an SSL Orchestrator configuration
+has failed, or that it has succeeded but not behaving as expected,
+the following troubleshooting tools should be useful.</div></blockquote>
+<div class="section" id="step-1-test-the-configuration">
+<h2>3.2.5.1. Step 1: Test the configuration<a class="headerlink" href="#step-1-test-the-configuration" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>It is important to first define “normal” behavior. If the SSL
+Orchestrator deployment process was successful, it will be possible
+to access remote Internet sites from the client workstation without
+issue, and HTTPS sites appear to have a locally-trusted, re-issued
+server certificate. This would be considered normal behavior. If any
+of these do not happen, use the tools below to troubleshoot.</div></blockquote>
+</div>
+<div class="section" id="step-2-troubleshoot">
+<h2>3.2.5.2. Step 2: Troubleshoot<a class="headerlink" href="#step-2-troubleshoot" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Below is a reasonably-ordered list of troubleshooting steps.</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>If the SSL Orchestrator deployment process fails, review the ensuing</dt>
+<dd><p class="first last">error message. It would be impossible to list here all of the
+possible error messages and their meanings, but often enough the
+messages will reveal the issue.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Re-review the lab steps for any missing or misconfigured settings.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Enable debug logging in the SSL Orchestrator configuration. Tail the</dt>
+<dd><p class="first last">APM log from a BIG-IP command line or from the logs page in the
+management UI. Debug logging will very often reveal important
+issues. Specifically, it will indicate traffic classification
+matches, mismatches or deployment issues.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>If the SSL Orchestrator deployment process succeeds, but traffic</dt>
+<dd><p class="first last">isn’t flowing through the environment made evident by lack of
+access to remote sites from the client:</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Ensure that the client is properly configured to either default</dt>
+<dd>route to the ingress VLAN and self- IP of the BIG-IP for
+transparent proxy access or has the correct browser proxy
+settings defined for explicit proxy access.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Ensure that traffic is flowing to the BIG-IP from the client with</dt>
+<dd>a tcpdump capture at the ingress interface.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Review the LTM configuration created by the SSL Orchestrator.</dt>
+<dd>Specifically, look at the pools and respective monitors for
+any failures.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Isolate service chain services. If at least one service chain has</dt>
+<dd>been created, and debug logging indicates that traffic is
+matching this chain, remove all but one service from that
+chain and test. Add one service back at a time until traffic
+flow stops. If a single added service breaks traffic flow,
+this service will typically be the culprit.</dd>
+</dl>
+</li>
+</ul>
+</li>
+<li><p class="first">If a broken service is identified, insert probes to verify inbound
+and outbound traffic flow. Inline services will have a source (S)
+VLAN and destination (D) VLAN, and ICAP and receive only services
+will each have a single source VLAN. Insert a tcpdump capture at each
+VLAN in order to determine if traffic is getting to the device, and
+if traffic is leaving the device through its outbound interface.</p>
+</li>
+<li><p class="first">If no service chains are defined, it may be necessary to remove all
+of the defined services and re- create them one-by-one to validate
+flow through the built-in All chain. If a broken service is
+identified, insert tcpdump probes as described above.</p>
+</li>
+<li><p class="first">If traffic is flowing through all of the security devices, insert a
+tcpdump probe at the egress point to verify traffic is leaving the
+BIG-IP to the gateway router.</p>
+</li>
+<li><p class="first">If traffic is flowing to the gateway router, perform a more extensive
+packet analysis to determine if SSL if failing between the BIG-IP
+egress point and the remote server.</p>
+<blockquote>
+<div><p>Then either export this capture to WireShark are send to ssldump:</p>
+</div></blockquote>
+</li>
+<li><p class="first">If the WireShark or ssldump analysis verifies an SSL issue:</p>
+<ul class="simple">
+<li>Plug the site’s address into the SSLLabs.com server test site at:
+<a class="reference external" href="http://www.ssllabs.com/ssltest/">*https://w*</a><em>ww.ssll</em><a class="reference external" href="http://www.ssllabs.com/ssltest/">*abs.com/ssltest/*</a></li>
+</ul>
+<blockquote>
+<div><p>This report will indicate any specific SSL requirements that this
+site has.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Verify that the SSL Orchestrator server SSL profiles (two of them)
+have the correct cipher string to match the requirements of this
+site. To do that, perform the following command at the BIG-IP command
+line:</p>
+</li>
+<li><p class="first">Further SSL/TLS issues are beyond the depth of this lab guide. Seek
+assistance.</p>
+</li>
+<li><p class="first">If all else fails, seek assistance.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="appendix-common-testing-commands">
+<h1>3.2.6. APPENDIX – COMMON TESTING COMMANDS<a class="headerlink" href="#appendix-common-testing-commands" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>The following are some simple, but powerful commands that are useful
+in developing and troubleshooting SSL visibility projects.</div></blockquote>
+<div class="section" id="control-the-sslfwd-certificate-cache">
+<h2>3.2.6.1. Control the SSLFWD certificate cache<a class="headerlink" href="#control-the-sslfwd-certificate-cache" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>The behavior of the SSL Forward Proxy changes after a certificate is
+cached, which will make it difficult to troubleshoot some issues.
+The following allows you to both list and delete the certificates in
+the cache.</div></blockquote>
+</div>
+<div class="section" id="isolate-sslo-traffic">
+<h2>3.2.6.2. Isolate SSLO traffic<a class="headerlink" href="#isolate-sslo-traffic" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Any given website will be full of images, scripts, style sheets, and
+very often references to document objects on other sites (like a
+CDN). This can make troubleshooting very complex. The following cURL
+commands allow you to isolate traffic to a single request and
+response.</p>
+<p>Optionally, between each cURL test, delete the certificate cache and
+start logging:</p>
+</div></blockquote>
+</div>
+<div class="section" id="debugging">
+<h2>3.2.6.3. Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>There is simply nothing better than debug logging for
+troubleshooting SSL intercept issues. The SSL Orchestrator in debug
+mode pumps out an enormous set of logs, describing every step along
+a connection’s path. Remember to never leave debug logging enabled.</div></blockquote>
+</div>
+<div class="section" id="packet-capture">
+<h2>3.2.6.4. Packet capture<a class="headerlink" href="#packet-capture" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Second only to debug logging, packet captures are crucial to
+troubleshooting any network-dependent issue.</p>
+<p>In-line services create “source” (S) and “destination” (D) VLANs,
+and ICAP and receive-only services attach to existing VLANs. Drop a
+probe at each point in the path and observe flow.</p>
+</div></blockquote>
+</div>
+<div class="section" id="ssl-inspection">
+<h2>3.2.6.5. SSL inspection<a class="headerlink" href="#ssl-inspection" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>TLS is rarely the issue, but a sight or configuration error may
+render some sites inaccessible.</div></blockquote>
+</div>
+<div class="section" id="control-the-url-filtering-database">
+<h2>3.2.6.6. Control the URL Filtering database<a class="headerlink" href="#control-the-url-filtering-database" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>To show the current status of the database:</p>
+<p>To initiate (force) the URL DB to update:</p>
+<p>To verify that the URL DB is actively updating:</p>
+</div></blockquote>
+</div>
+<div class="section" id="external-testing">
+<h2>3.2.6.7. External testing<a class="headerlink" href="#external-testing" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Plug the site’s address into SSLLabs.com server test site at
+<strong>*https:*</strong><a class="reference external" href="http://www.ssllabs.com/ssltest/">***//www.***</a><strong>*ss*</strong><a class="reference external" href="http://www.ssllabs.com/ssltest/">***llabs.com/ssltest/
+***</a>to see if the site has any
+unusual SSL/TLS requirements.</div></blockquote>
+</div>
+</div>
+<div class="section" id="appendix-routing-considerations-for-layer-3-devices">
+<h1>3.2.7. APPENDIX – ROUTING CONSIDERATIONS FOR LAYER 3 DEVICES<a class="headerlink" href="#appendix-routing-considerations-for-layer-3-devices" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>SSL Orchestrator sends all traffic through an inline layer 3 or HTTP
+device in the same direction – entering through the inbound
+interface. It is likely, therefore, that the layer 3 device may not
+be able to correctly route both outbound (forward proxy) and inbound
+(reverse proxy) traffic at the same time. Please see the appendix,
+“Routing considerations for layer 3 devices” for more details. For
+example, in a simple Linux-type environment there would be two
+routes needed for SSLO:</div></blockquote>
+<ul>
+<li><dl class="first docutils">
+<dt>The default gateway to send traffic back to SSLO through the</dt>
+<dd><p class="first last">service’s outbound interface</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>A static return route to allow client traffic to return through the</dt>
+<dd><blockquote class="first">
+<div><p>service’s inbound interface Example:</p>
+</div></blockquote>
+<p class="last">In the above, configured for an outbound traffic flow, the default
+gateway is on the outbound side interface (eth2), with a static
+route for 10.1.10.0/24 (client-sourced) traffic flowing back through
+the inbound interface (eth1). An inbound flow, however, would
+require the opposite:</p>
+</dd>
+</dl>
+</li>
+</ul>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="20%" />
+<col width="20%" />
+<col width="13%" />
+<col width="14%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><em>Destination</em></th>
+<th class="head"><em>Gateway</em></th>
+<th class="head"><em>Genmask</em></th>
+<th class="head"><em>Flags</em></th>
+<th class="head"><em>Metric</em></th>
+<th class="head"><em>iFace</em></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><em>default</em></td>
+<td><em>198.19.64.7</em></td>
+<td><em>0.0.0.0</em></td>
+<td><em>UG</em></td>
+<td><em>0</em></td>
+<td><em>eth1</em></td>
+</tr>
+<tr class="row-odd"><td><em>10.1.10.0</em></td>
+<td><em>198.19.64.245</em></td>
+<td><em>255.255.255.0</em></td>
+<td><em>UG</em></td>
+<td><em>o</em></td>
+<td><em>eth2</em></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div>There are generally a few options for handling inbound and outbound
+traffic flows:</div></blockquote>
+<ul class="simple">
+<li>Do not use the same layer 3 device for inbound and outbound flows –
+the simplest option, but not always possible in some environments.</li>
+<li><dl class="first docutils">
+<dt>Create a policy route, if the device supports it, to create multiple</dt>
+<dd>gateways. We will explore the second and second options below.</dd>
+</dl>
+</li>
+</ul>
+<div class="section" id="configuring-a-policy-route-on-the-layer-3-device">
+<h2>3.2.7.1. Configuring a policy route on the layer 3 device<a class="headerlink" href="#configuring-a-policy-route-on-the-layer-3-device" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>If a service supports it, policy routing allows you to create
+multiple gateways on a layer 3 (routed) device. In lieu of creating
+separate inbound and outbound services, and service chains for a
+single L3 device, all traffic in this use case still flows through
+the inbound side interface, but the policy route will effectively
+steer traffic in the correct direction. Policy routing can be a
+complex topic in and of itself, and each security product will have
+its own way of configuring policy routing anyway, so it cannot be
+covered in total in this guide. Please refer to product-specific
+documentation to learn more about your policy routing options.</p>
+<p>The following is an example script to enable a policy route on a
+generic Linux device (most of which have iproute2 installed by
+default). In the script, it is only necessary to modify the top
+eight variables, defining attributes of the inbound and outbound
+networks. Once complete, chmod the script to make it executable,
+test it, and then call it from a startup process like /etc/rc.local
+or /etc/init.d/rc.local. If the script is successful, you should be
+able to send inbound and outbound SSLO traffic flows through this
+device.</p>
+<p>#!/bin/bash</p>
+<p>## Inbound interface inbound_interface=eth1.10
+inbound_ip=198.19.64.65 inbound_mask=25 inbound_gw=198.19.64.7</p>
+<p>## Outbound interface outbound_interface=eth1.20
+outbound_ip=198.19.64.130 outbound_mask=25
+outbound_gw=198.19.64.245</p>
+<p>### ———————————————- ###</p>
+<p>### ———————————————- ###</p>
+<p>## static table names inbound_table=av_in outbound_table=av_out</p>
+<p>## function to get network from mask and IP get_network () {</p>
+<p>IFS=. read -r io1 io2 io3 io4 &lt;&lt;&lt; “$2”</p>
+<p>set – $(( 5 - ($1 / 8) )) 255 255 255 255 $(( (255 &lt;&lt; (8 - ($1 %
+8))) &amp; 255 )) 0 0 0</p>
+<p>[ $1 -gt 1 ] &amp;&amp; shift $1 || shift</p>
+<p>NET_ADDR=”$((${io1} &amp; ${1-0})).$((${io2} &amp; ${2-0})).$((${io3} &amp;
+${3-0})).$((${io4} &amp; ${4-0}))”</p>
+<p>echo “$NET_ADDR”</p>
+<p>}</p>
+<p>## stop if iproute2 isn not installed if ! [ -d “/etc/iproute2/” ];
+then</p>
+<p>echo “iproute2 policy routing is not available on this system -
+exiting” exit</p>
+<p>fi</p>
+<p>## create the ipproute2 tables</p>
+<p>if ! grep -q ${inbound_table} /etc/iproute2/rt_tables; then echo
+“200 ${inbound_table}” &gt;&gt; /etc/iproute2/rt_tables</p>
+<p>fi</p>
+<p>if ! grep -q ${outbound_table} /etc/iproute2/rt_tables; then echo
+“201 ${outbound_table}” &gt;&gt; /etc/iproute2/rt_tables</p>
+<p>fi</p>
+<p>## get the inbound and outbound networks from function
+inbound_net=$(get_network ${inbound_mask} ${inbound_ip})</p>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="appendix-demo-scripts">
+<h1>3.2.8. APPENDIX – DEMO SCRIPTS<a class="headerlink" href="#appendix-demo-scripts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lab-1-demo-script">
+<h2>3.2.8.1. Lab 1 demo script<a class="headerlink" href="#lab-1-demo-script" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><strong>Configuration review and prerequisites</strong></div></blockquote>
+<ol class="arabic">
+<li><p class="first">Optionally define DNS, NTP and gateway route</p>
+</li>
+<li><p class="first">Click Next</p>
+<blockquote>
+<div><p><strong>Topology Properties</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Name - some name</p>
+</li>
+<li><p class="first">Protocol: Any</p>
+</li>
+<li><p class="first">IP Family: IPv4</p>
+</li>
+<li><p class="first">Topology: L3 Outbound</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>SSL Configuration</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Create a New SSL Profile</p>
+</li>
+<li><p class="first">Client-side SSL (Cipher Type): Cipher String</p>
+</li>
+<li><p class="first">Client-side SSL (Cipher String): DEFAULT</p>
+</li>
+<li><p class="first">Client-side SSL (Certificate Key Chain): default.crt and default.key</p>
+</li>
+<li><p class="first">Client-side SSL (CA Certificate Key Chain): subca.f5demolabs.com</p>
+</li>
+<li><p class="first">Server-side SSL (Cipher Type): Cipher String</p>
+</li>
+<li><p class="first">Server-side SSL (Cipher String): DEFAULT</p>
+</li>
+<li><p class="first">Server-side SSL (Trusted Certificate Authority): ca-bundle.crt</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Service List</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first"><strong>Inline Layer 2 service</strong></p>
+<ol class="loweralpha simple">
+<li>Name: some name (ex. FireEye)</li>
+<li>Network Configuration<ul>
+<li>Ratio: 1</li>
+<li>From BIGIP VLAN: Create New, name (ex. FireEye_in), int 1.6</li>
+<li>To BIGIP VLAN: Create New, name (ex. FireEye_out), int 1.7</li>
+<li>Click Done</li>
+</ul>
+</li>
+<li>Service Action Down: Ignore</li>
+<li>Enable Port Remap: Enable, 8080</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple" start="3">
+<li>Click Save</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first"><strong>Inline layer 3 service</strong></p>
+<ol class="loweralpha simple">
+<li>Name: some name (ex. IPS)</li>
+<li>IP Family: IPv4</li>
+<li>Auto Manage: Enabled</li>
+<li>To Service Configuration</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>To Service: 198.19.64.7/25</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<ul class="simple">
+<li>VLAN: Create New, name (ex. IPS_in), interface 1.3, tag 50</li>
+</ul>
+<ol class="loweralpha simple">
+<li>Service Action Down: Ignore f. L3 Devices: 198.19.64.64</li>
+</ol>
+<ol class="loweralpha" start="7">
+<li><p class="first">From Service Configuration</p>
+<blockquote>
+<div><ul class="simple">
+<li>From Service: 198.19.64.245/25</li>
+<li>VLAN: Create New, name (ex. IP_out), interface 1.3, tag 60</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<ol class="loweralpha simple" start="7">
+<li>Enable Port Remap: Enabled, 8181</li>
+<li>Manage SNAT Settings: None</li>
+<li>Click Save</li>
+</ol>
+<ol class="arabic">
+<li><p class="first"><strong>Inline HTTP service</strong></p>
+<ol class="loweralpha simple">
+<li>Name: some name (ex. Proxy)</li>
+<li>IP Family: IPv4</li>
+<li>Auto Manage: Enabled</li>
+<li>Proxy Type: Explicit</li>
+<li>To Service Configuration</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>To Service: 198.19.96.7/25</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<ul class="simple">
+<li>VLAN: Create New, name (ex. Proxy_in), interface 1.3, tag 110</li>
+</ul>
+<ol class="loweralpha">
+<li><p class="first">Service Action Down: Ignore</p>
+</li>
+<li><p class="first">HTTP Proxy Devices: 198.19.96.66, Port 3128</p>
+</li>
+<li><p class="first">From Service Configuration</p>
+<blockquote>
+<div><ul class="simple">
+<li>From Service: 198.19.96.245/25</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<ul class="simple">
+<li>VLAN: Create New, name (ex. Proxy_out), interface 1.3, tag 120</li>
+</ul>
+<ol class="loweralpha">
+<li><p class="first">Manage SNAT Settings: None</p>
+<blockquote>
+<div><p>j . Authentication Offload: Disabled</p>
+<ol class="loweralpha simple" start="11">
+<li>Click Save</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first"><strong>ICAP Service</strong></p>
+<ol class="loweralpha simple">
+<li>name: some name (ex. DLP)</li>
+<li>IP Family: IPv4</li>
+<li>ICAP Devices: 10.70.0.10, Port 1344</li>
+<li>Request URI Path: /squidclamav</li>
+<li>Response URI Path: /squidclamav</li>
+<li>Preview Max Length(bytes): 524288</li>
+<li>Service Action Down: Ignore</li>
+<li>Click Save</li>
+</ol>
+</li>
+<li><p class="first"><strong>TAP Service</strong></p>
+<ol class="loweralpha simple">
+<li>Some Name (ex. TAP)</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple" start="2">
+<li>Mac Address: 12:12:12:12:12:12</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<ol class="loweralpha simple" start="3">
+<li>VLAN: Create New, name (ex. TAP_in)</li>
+<li>Interface: 1.4</li>
+<li>Service Action Down: Ignore</li>
+<li>Click Save</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Service Chain List</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Add</p>
+<ol class="loweralpha simple">
+<li>Name: some name (ex. my-service-chain)</li>
+<li>Services: all of the services</li>
+<li>Click Save</li>
+</ol>
+</li>
+<li><p class="first">Add</p>
+<ol class="loweralpha simple">
+<li>name: some name (ex. my-sub-service-chain)</li>
+<li>Services: L2 and TAP services</li>
+<li>Click Save</li>
+</ol>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Security Policy</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Add a new rule</p>
+<ol class="loweralpha simple">
+<li>Name: some name (ex. urlf_bypass)</li>
+<li>Conditions<ul>
+<li>Category Lookup (All)</li>
+<li>SNI Category: Financial Data and Services, Health and Medicine</li>
+</ul>
+</li>
+<li>Action: Allow</li>
+<li>SSL Forward Proxy Action: bypass</li>
+<li>Service Chain: L2/TAP service chain</li>
+<li>Click OK</li>
+</ol>
+</li>
+<li><p class="first">Modify the All rule</p>
+<ol class="loweralpha simple">
+<li>Service Chain: all services chain</li>
+<li>Click OK</li>
+</ol>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Interception Rule</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="loweralpha">
+<li><p class="first">Select Outbound Rule Type: Default</p>
+</li>
+<li><p class="first">Ingress Network (VLANs): client-side</p>
+</li>
+<li><p class="first">L7 Interception Rules: apply FTP and email protocols as required</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Egress Setting</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="loweralpha">
+<li><p class="first">Manage SNAT Settings: Auto Map</p>
+</li>
+<li><p class="first">Gateways: New, ratio 1, 10.30.0.1</p>
+<blockquote>
+<div><p><strong>Summary</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="loweralpha simple">
+<li>Review configuration</li>
+<li>Click Deploy</li>
+</ol>
+</div>
+<div class="section" id="lab-2-demo-script">
+<h2>3.2.8.2. Lab 2 demo script<a class="headerlink" href="#lab-2-demo-script" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><strong>Configuration review and prerequisites</strong></div></blockquote>
+<ol class="arabic">
+<li><p class="first">Optionally define DNS, NTP and gateway route</p>
+</li>
+<li><p class="first">Click Next</p>
+<blockquote>
+<div><p><strong>Topology Properties</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Name: some name (ex. sslo-inbound-1)</p>
+</li>
+<li><p class="first">Protocol: TCP</p>
+</li>
+<li><p class="first">IP Family: IPv4</p>
+</li>
+<li><p class="first">Topology: L3 Inbound</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>SSL Configuration</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Show Advanced Setting</p>
+</li>
+<li><p class="first">Client-side SSL (Cipher Type): Cipher String</p>
+</li>
+<li><p class="first">Client-side SSL (Cipher String): DEFAULT</p>
+</li>
+<li><p class="first">Client-side SSL (Certificate Key Chain): default.crt and default.key</p>
+</li>
+<li><p class="first">Server-side SSL (Cipher Type): Cipher String</p>
+</li>
+<li><p class="first">Server-side SSL (Cipher String): DEFAULT</p>
+</li>
+<li><p class="first">Server-side SSL (Trusted Certificate Authority): ca-bundle.crt</p>
+</li>
+<li><p class="first">Advanced (Expire Certificate Control): Ignore</p>
+</li>
+<li><p class="first">Advanced (Untrusted Certificate Authority): Ignore</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<p><strong>Services List</strong></p>
+<ol class="arabic simple">
+<li>Click Save &amp; Next</li>
+</ol>
+<p><strong>Service Chain List</strong></p>
+<ol class="arabic simple">
+<li>Click Save &amp; Next</li>
+</ol>
+<p><strong>Security Policy</strong></p>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Remove Pinners_Rule</p>
+</li>
+<li><p class="first">Edit All Traffic rule and add L2/TAP service chain</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Interception Rule</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Gateway-mode</p>
+<ol class="loweralpha simple">
+<li>Hide Advanced Setting</li>
+<li>Source Address: 0.0.0.0/0</li>
+<li>Destination Address/Mask: 0.0.0.0/0</li>
+<li>Port: 443</li>
+<li>VLANs: outbound</li>
+</ol>
+</li>
+<li><p class="first">Targeted-mode</p>
+<ol class="loweralpha simple">
+<li>Show Advanced Setting</li>
+<li>Source Address: 0.0.0.0/0</li>
+<li>Destination Address: 10.30.0.200</li>
+<li>Port: 443</li>
+<li>VLANs: outbound</li>
+<li>Pool: webserver-pool</li>
+</ol>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Egress Settings</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Manage SNAT Settings: Auto Map</p>
+</li>
+<li><p class="first">Gateways: Default Route</p>
+<blockquote>
+<div><p><strong>Summary</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic simple">
+<li>Review configuration</li>
+<li>Click Deploy</li>
+</ol>
+</div>
+<div class="section" id="lab-3-demo-script">
+<h2>3.2.8.3. Lab 3 demo script<a class="headerlink" href="#lab-3-demo-script" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><strong>Configuration review and prerequisites</strong></div></blockquote>
+<ol class="arabic">
+<li><p class="first">Optionally define DNS, NTP and gateway route</p>
+</li>
+<li><p class="first">Click Next</p>
+<blockquote>
+<div><p><strong>Topology Properties</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Name: some name (ex. sslo-explicit)</p>
+</li>
+<li><p class="first">Protocol: TCP</p>
+</li>
+<li><p class="first">IP Family: IPv4</p>
+</li>
+<li><p class="first">Topology: L3 Explicit Proxy</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>SSL Configuration</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">SSL Profile: Use Existing, existing outbound SSL settings</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Services List</strong></p>
+<ol class="arabic simple">
+<li>Click Save &amp; Next</li>
+</ol>
+<p><strong>Service Chain List</strong></p>
+<ol class="arabic simple">
+<li>Click Save &amp; Next</li>
+</ol>
+<p><strong>Security Policy</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Type: Use Existing, existing outbound security policy</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Interception Rule</strong></p>
+<ol class="arabic simple">
+<li>IPV4 Address: 10.20.0.150</li>
+<li>Port: 3128</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">VLANs: client-net</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+<blockquote>
+<div><p><strong>Egress Settings</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Manage SNAT Settings: Auto Map</p>
+</li>
+<li><p class="first">Gateways: Existing Gateway Pool, -ex-pool-4 pool</p>
+<blockquote>
+<div><p><strong>Summary</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic">
+<li><p class="first">Review configuration</p>
+</li>
+<li><p class="first">Click Deploy</p>
+<blockquote>
+<div><p><strong>System Settings</strong></p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic simple">
+<li>DNS Query Resolution: Local Forwarding Nameserver</li>
+<li>Local Forwarding Nameserver(s): 10.1.20.1</li>
+<li>Click Deploy</li>
+</ol>
+</div>
+</div>
+
+
+        
+		     <div class="row next-prev-btn-row">
+           <div class="col-lg-12">
+           
+		        <a href="../class1.html" title="3. Class - F5 SSL Orchestrator" accesskey="p" class="btn btn-primary pull-left"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous</a>
+           
+           
+		     </div>
+         </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="content-fluid pre-footer">
+            <div class="blocks-container">
+              <div class="block">
+                <h3>Support Programs</h3>
+                <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Contact Support</h3>
+                <p>
+                  North America: 1-888-882-7535<br>
+                  Outside North America: 800-11-275-435
+                </p>
+                <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                  <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+                </a>
+              </div>
+              <div class="block">
+                <h3>Feedback and Help</h3>
+                <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+                <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="footer">
+            <div class="container">
+              <div class="col-sm-3 col-md-2">
+                <h4>About F5</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-sm-3 col-md-2">
+                <h4>Education</h4>
+                <ul>
+                  <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                  </li>
+                  <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-sm-3 col-md-2">
+                <h4>F5 sites</h4>
+                <ul>
+                <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+                </li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+                </li>
+                <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-sm-3 col-md-2">
+            <h4>Support Tasks</h4>
+            <ul>
+                <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+                </li>
+                <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-12 col-md-3 right">
+            <h4>Connect with us</h4>
+            <ul class="social_icons">
+                <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+                <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="content-fluid left">
+            <div class="col-xs-12">
+                <p>
+                    © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                    <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                    <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+</footer>
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>

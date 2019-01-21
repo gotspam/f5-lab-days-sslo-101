@@ -12,6 +12,12 @@ transparent forward proxy already exists from Lab 1, the following
 workflow will create a separate set of non-overlapping listeners to
 satisfy an explicit forward proxy use case.
 
+.. Note::
+   This lab will consist of an abbreviated set of steps, as some of the
+   objects created in Lab1 (services and service chains) will be fully
+   re-usable here.  If any of these objects have not been created, please
+   review Lab 1 for more detailed configuration instructions.
+
 Step 1: Review the lab diagram and map out the services and endpoints
 ---------------------------------------------------------------------
 
@@ -27,7 +33,7 @@ Step 2: Configure an explicit proxy SSLO deployment through Guided Configuration
 
 -  Click on Topologies then click Add
 
-.. image:: /_static/image08.png
+.. image:: /_static/image003.png
    :height: 400px
 
 -  Click NEXT
@@ -55,6 +61,12 @@ Step 2: Configure an explicit proxy SSLO deployment through Guided Configuration
       settings.
 
    -  Click Save & Next
+
+.. Note::
+   Whenever repurposing a topology setting, a warning will appear,
+   “There are other configuration items that are referencing this item.
+   Editing this item will affect the referencing ones mentioned below”.
+   Click OK to acknowledge.
 
 -  **Services List** – there are no new services to create.
 
@@ -111,6 +123,9 @@ Step 2: Configure an explicit proxy SSLO deployment through Guided Configuration
 -  **Testing** – configure the browser to use 10.20.0.150:3128 for
    explicit proxy access. An explicit proxy request test can also be
    done using command-line cURL:
+
+
+   **curl -vk -proxy 10.20.0.150:3128 https://www.example.com**
 
 Step 3: Add DNS and Logging settings
 ------------------------------------

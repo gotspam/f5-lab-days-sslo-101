@@ -10,6 +10,13 @@ This lab will be re- using the security services created in the
 first lab to create a single inbound “gateway” service SSLO
 configuration.
 
+.. Note::
+   This lab will consist of an abbreviated set of steps, as some of the
+   objects created in Lab1 (services and service chains) will be fully
+   re-usable here.  If any of these objects have not been created, please
+   review Lab 1 for more detailed configuration instructions.
+
+
 Step 1: Review the lab diagram and map out the services and endpoints
 ---------------------------------------------------------------------
 
@@ -48,6 +55,15 @@ SSLO.
    The external client has two options for accessing the internal
    websites: via wildcard (0.0.0.0/0) gateway, and direct IP listener.
    The lab will explore both options below.
+
+.. Note::
+   SSL Orchestrator sends all traffic through an inline layer 3 or HTTP
+   device in the same direction - entering through the inbound interface.
+   It is likely, therefor, that the layer 3 device may not be able to
+   correctly route both outbound (forward proxy) and inbound (reverse proxy)
+   traffic at the same time.  Please see the appendix, “Routing considerations
+   for layer 3 devices” for more details.
+
 
 Step 2: Configure an L3 inbound SSLO deployment through Guided Configuration
 ----------------------------------------------------------------------------
@@ -113,6 +129,10 @@ inbound TLS traffic flows via wildcard or subject alternative name
       wildcard certificate has been provided. Select the pencil icon to
       edit, then select the wildcard.f5demolabs.com certificate and
       private key and click Done.
+
+      .. Note::
+         SSL Settings minimally require RSA-based template and CA certificates
+         but can also support Elliptic Curve (ECDSA) certificates.
 
       .. image:: /_static/image66.png
          :height: 400px

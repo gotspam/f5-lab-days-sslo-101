@@ -250,6 +250,13 @@ a “single instance” listener going to a single pool of resources.
 This lab will be re- using the security services created in the
 first lab to create a single inbound “gateway” service SSLO
 configuration.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This lab will consist of an abbreviated set of steps, as some of the
+objects created in Lab1 (services and service chains) will be fully
+re-usable here.  If any of these objects have not been created, please
+review Lab 1 for more detailed configuration instructions.</p>
+</div>
 <div class="section" id="step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints">
 <h2>2.2.2.1. Step 1: Review the lab diagram and map out the services and endpoints<a class="headerlink" href="#step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints" title="Permalink to this headline">¶</a></h2>
 <p>Specifically, note that in this lab there is a web server on the
@@ -289,6 +296,15 @@ websites: via wildcard (0.0.0.0/0) gateway, and direct IP listener.
 The lab will explore both options below.</p>
 </li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SSL Orchestrator sends all traffic through an inline layer 3 or HTTP
+device in the same direction - entering through the inbound interface.
+It is likely, therefor, that the layer 3 device may not be able to
+correctly route both outbound (forward proxy) and inbound (reverse proxy)
+traffic at the same time.  Please see the appendix, “Routing considerations
+for layer 3 devices” for more details.</p>
+</div>
 </div>
 <div class="section" id="step-2-configure-an-l3-inbound-sslo-deployment-through-guided-configuration">
 <h2>2.2.2.2. Step 2: Configure an L3 inbound SSLO deployment through Guided Configuration<a class="headerlink" href="#step-2-configure-an-l3-inbound-sslo-deployment-through-guided-configuration" title="Permalink to this headline">¶</a></h2>
@@ -344,6 +360,11 @@ listener was intended to service multiple sites. In this lab a
 wildcard certificate has been provided. Select the pencil icon to
 edit, then select the wildcard.f5demolabs.com certificate and
 private key and click Done.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SSL Settings minimally require RSA-based template and CA certificates
+but can also support Elliptic Curve (ECDSA) certificates.</p>
+</div>
 <a class="reference internal image-reference" href="../../_images/image66.png"><img alt="../../_images/image66.png" src="../../_images/image66.png" style="height: 400px;" /></a>
 </li>
 </ul>

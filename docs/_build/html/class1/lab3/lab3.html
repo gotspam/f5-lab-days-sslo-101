@@ -254,6 +254,13 @@ the existing transparent proxy listener. Therefore, assuming a
 transparent forward proxy already exists from Lab 1, the following
 workflow will create a separate set of non-overlapping listeners to
 satisfy an explicit forward proxy use case.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This lab will consist of an abbreviated set of steps, as some of the
+objects created in Lab1 (services and service chains) will be fully
+re-usable here.  If any of these objects have not been created, please
+review Lab 1 for more detailed configuration instructions.</p>
+</div>
 <div class="section" id="step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints">
 <h2>2.2.3.1. Step 1: Review the lab diagram and map out the services and endpoints<a class="headerlink" href="#step-1-review-the-lab-diagram-and-map-out-the-services-and-endpoints" title="Permalink to this headline">¶</a></h2>
 <p>Review the same step in Lab 1 for more details. This lab uses the
@@ -267,7 +274,7 @@ and security policy will be re-used.</p>
 the topology options and workflow configuration, then click Next.</li>
 <li>Click on Topologies then click Add</li>
 </ul>
-<a class="reference internal image-reference" href="../../_images/image08.png"><img alt="../../_images/image08.png" src="../../_images/image08.png" style="height: 400px;" /></a>
+<a class="reference internal image-reference" href="../../_images/image003.png"><img alt="../../_images/image003.png" src="../../_images/image003.png" style="height: 400px;" /></a>
 <ul class="simple">
 <li>Click NEXT</li>
 </ul>
@@ -288,50 +295,75 @@ settings.</li>
 <li>Click Save &amp; Next</li>
 </ul>
 </li>
-<li><strong>Services List</strong> – there are no new services to create.<ul>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Whenever repurposing a topology setting, a warning will appear,
+“There are other configuration items that are referencing this item.
+Editing this item will affect the referencing ones mentioned below”.
+Click OK to acknowledge.</p>
+</div>
+<ul>
+<li><p class="first"><strong>Services List</strong> – there are no new services to create.</p>
+<ul class="simple">
 <li>Click Save &amp; Next</li>
 </ul>
 </li>
-<li><strong>Service Chain List</strong> – there are no new service chains to create.<ul>
+<li><p class="first"><strong>Service Chain List</strong> – there are no new service chains to create.</p>
+<ul class="simple">
 <li>Click Save &amp; Next</li>
 </ul>
 </li>
-<li><strong>Security Policy</strong> – the existing outbound Security Policy from Lab
-1 can be re-used here.</li>
-<li><strong>Type</strong>: Use Existing, select existing outbound SSL settings.</li>
-<li>Click Save &amp; Next</li>
-<li><strong>Interception Rule</strong> – an explicit proxy requires a unique IP
-address and port listener.<ul>
+<li><p class="first"><strong>Security Policy</strong> – the existing outbound Security Policy from Lab
+1 can be re-used here.</p>
+</li>
+<li><p class="first"><strong>Type</strong>: Use Existing, select existing outbound SSL settings.</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Interception Rule</strong> – an explicit proxy requires a unique IP
+address and port listener.</p>
+<ul class="simple">
 <li><strong>IPV4 Address</strong>: 10.20.0.150</li>
 <li><strong>Port</strong>: 3128</li>
 </ul>
 </li>
-<li><strong>Access Profile</strong>: if enabling explicit proxy authentication, select
-an existing SWG-Explicit access profile here.</li>
-<li><strong>VLANs</strong>: client-net</li>
-<li>Click Save &amp; Next</li>
-<li><strong>Egress Setting</strong> – traffic egress settings are now defined
+<li><p class="first"><strong>Access Profile</strong>: if enabling explicit proxy authentication, select
+an existing SWG-Explicit access profile here.</p>
+</li>
+<li><p class="first"><strong>VLANs</strong>: client-net</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Egress Setting</strong> – traffic egress settings are now defined
 per-topology and manage both the gateway route and outbound SNAT
-settings.</li>
-<li><strong>Manage SNAT Settings</strong> – enables per-topology instance SNAT
-settings. For this lab, select Auto Map.</li>
-<li><strong>Gateways</strong> – enables per-topology instance gateway routing. Options
+settings.</p>
+</li>
+<li><p class="first"><strong>Manage SNAT Settings</strong> – enables per-topology instance SNAT
+settings. For this lab, select Auto Map.</p>
+</li>
+<li><p class="first"><strong>Gateways</strong> – enables per-topology instance gateway routing. Options
 are to use the system default route, to use an existing gateway pool,
 or to create a new gateway. For this lab, select Use Existing Gateway
-Pool, then select the “-ex-pool-4” gateway pool.</li>
-<li>Click Save &amp; Next</li>
-<li><strong>Summary</strong> – the summary page presents an expandable list of all of
+Pool, then select the “-ex-pool-4” gateway pool.</p>
+</li>
+<li><p class="first">Click Save &amp; Next</p>
+</li>
+<li><p class="first"><strong>Summary</strong> – the summary page presents an expandable list of all of
 the workflow-configured objects. To expand the details for any given
 setting, click the corresponding arrow icon on the far right. To edit
 any given setting, click the corresponding pencil icon. Clicking the
 pencil icon will send the workflow back to the selected settings
-page.<ul>
+page.</p>
+<ul class="simple">
 <li>When satisfied with the defined settings, click Deploy.</li>
 </ul>
 </li>
-<li><strong>Testing</strong> – configure the browser to use 10.20.0.150:3128 for
+<li><p class="first"><strong>Testing</strong> – configure the browser to use 10.20.0.150:3128 for
 explicit proxy access. An explicit proxy request test can also be
-done using command-line cURL:</li>
+done using command-line cURL:</p>
+<p><strong>curl -vk -proxy 10.20.0.150:3128 https://www.example.com</strong></p>
+</li>
 </ul>
 </div>
 <div class="section" id="step-3-add-dns-and-logging-settings">

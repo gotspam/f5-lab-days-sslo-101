@@ -406,6 +406,9 @@ APM log from a BIG-IP command line or from the logs page in the
 management UI. Debug logging will very often reveal important
 issues. Specifically, it will indicate traffic classification
 matches, mismatches or deployment issues.</p>
+<p><strong>tail -f /var/log/apm</strong>
+<strong>tail -f /var/log/restnoded/restnoded.log</strong>
+<strong>tail -f /var/log/restjavad.0.log</strong></p>
 </li>
 <li><p class="first">If the SSL Orchestrator deployment process succeeds, but traffic
 isn’t flowing through the environment made evident by lack of
@@ -443,11 +446,13 @@ identified, insert tcpdump probes as described above.</p>
 <li><p class="first">If traffic is flowing through all of the security devices, insert a
 tcpdump probe at the egress point to verify traffic is leaving the
 BIG-IP to the gateway router.</p>
+<p>tcpdump -I 0.0:nnn -nn -Xs0 -vv -w &lt;file.pcap&gt; &lt;any additional filters&gt;</p>
 </li>
 <li><p class="first">If traffic is flowing to the gateway router, perform a more extensive
 packet analysis to determine if SSL if failing between the BIG-IP
 egress point and the remote server.</p>
 <p>Then either export this capture to WireShark are send to ssldump:</p>
+<p>ssldump -nr &lt;file.pcap&gt; -H -S crypto &gt; text-file.txt</p>
 </li>
 <li><p class="first">If the WireShark or ssldump analysis verifies an SSL issue:</p>
 <ul class="simple">
@@ -460,6 +465,7 @@ egress point and the remote server.</p>
 have the correct cipher string to match the requirements of this
 site. To do that, perform the following command at the BIG-IP command
 line:</p>
+<p>tmm –clientciphers ‘cipher string as displayed in server ssl profiles’</p>
 </li>
 <li><p class="first">Further SSL/TLS issues are beyond the depth of this lab guide. Seek
 assistance.</p>
@@ -479,6 +485,8 @@ in developing and troubleshooting SSL visibility projects.</p>
 cached, which will make it difficult to troubleshoot some issues.
 The following allows you to both list and delete the certificates in
 the cache.</p>
+<p>tmsh show ltm clientssl-proxy cached-certs clientssl-profile [CLIENTSSLPROFILE] virtual INGRESSTCPVIP]
+tmsh delete ltm clientssl-proxy cached-certs clientssl-profile [CLIENTSSLPROFILE] virtual INGRESSTCPVIP]</p>
 </div>
 <div class="section" id="isolate-sslo-traffic">
 <h2>2.2.6.2. Isolate SSLO traffic<a class="headerlink" href="#isolate-sslo-traffic" title="Permalink to this headline">¶</a></h2>
@@ -486,8 +494,12 @@ the cache.</p>
 very often references to document objects on other sites (like a
 CDN). This can make troubleshooting very complex. The following cURL
 commands allow you to isolate traffic to a single request and response.</p>
+<p>curl -vk <a class="reference external" href="https://www.bing.com">https://www.bing.com</a></p>
+<p>curl -vk –proxy 10.30.0.150:3128 <a class="reference external" href="https://www.bing.com">https://www.bing.com</a></p>
+<p>curl -vk –proxy 10.30.0.150:3128 - -location <a class="reference external" href="https://www.bing.com">https://www.bing.com</a></p>
 <p>Optionally, between each cURL test, delete the certificate cache and
 start logging:</p>
+<p>tmsh delete ltm clientssl-proxy cached-certs clientssl-profile [CLIENTSSLPROFILE] virtual INGRESSTCPVIP] &amp;&amp; tail -f /var/log/apm</p>
 </div>
 <div class="section" id="debugging">
 <h2>2.2.6.3. Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
@@ -500,20 +512,27 @@ a connection’s path. Remember to never leave debug logging enabled.</p>
 <h2>2.2.6.4. Packet capture<a class="headerlink" href="#packet-capture" title="Permalink to this headline">¶</a></h2>
 <p>Second only to debug logging, packet captures are crucial to
 troubleshooting any network-dependent issue.</p>
+<p>tcpdump -lnni [VLAN] [-Xs0]</p>
 <p>In-line services create “source” (S) and “destination” (D) VLANs,
 and ICAP and receive-only services attach to existing VLANs. Drop a
 probe at each point in the path and observe flow.</p>
 </div>
 <div class="section" id="ssl-inspection">
 <h2>2.2.6.5. SSL inspection<a class="headerlink" href="#ssl-inspection" title="Permalink to this headline">¶</a></h2>
+<p>ssldump -AdNd -i [VLAN] port 443 &lt;add additional filters&gt;</p>
+<p>tcpdump -i 0.0:nnn -nn -Xs0 -vv -w &lt;file.pcap&gt; &lt;and additional filters&gt;</p>
+<p>ssldump -nr &lt;file.pcap&gt; -H -S crypto &gt; text-file.txt</p>
 <p>TLS is rarely the issue, but a sight or configuration error may
 render some sites inaccessible.</p>
 </div>
 <div class="section" id="control-the-url-filtering-database">
 <h2>2.2.6.6. Control the URL Filtering database<a class="headerlink" href="#control-the-url-filtering-database" title="Permalink to this headline">¶</a></h2>
-<p>To show the current status of the database:</p>
-<p>To initiate (force) the URL DB to update:</p>
-<p>To verify that the URL DB is actively updating:</p>
+<p>To show the current status of the database:
+tmsh list sys url-db download-result</p>
+<p>To initiate (force) the URL DB to update:
+tmsh modify sys url-db download-schedule all stats true download-now true</p>
+<p>To verify that the URL DB is actively updating:
+tcpdup -lnni 0.0 port 80 and host 204.15.67.80</p>
 </div>
 <div class="section" id="external-testing">
 <h2>2.2.6.7. External testing<a class="headerlink" href="#external-testing" title="Permalink to this headline">¶</a></h2>

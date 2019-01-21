@@ -8,7 +8,7 @@
 classname = "F5 SSL Orchestrator"
 
 # OPTIONAL: The URL to the GitHub Repository for this class
-github_repo = "https://github.com/gotspam/f5-alab-days-sslo-101"
+github_repo = "https://github.com/gotspam/f5-sslo"
 
 # OPTIONAL: Google Analytics
 # googleanalytics_id = 'UA-85156643-4'

@@ -104,27 +104,26 @@ steps can be used,
 -  If the above fails, manually clear the REST database from the command
    line,
 
--  Break any HA configuration
+   -  Break any HA configuration
 
--  Issue the ‘clear-rest-storage [options]’ command, where the options
-   are “-l” (lowercase L) to delete the restjavad log files as well as
-   the stored state, and “-d” to reset the system configuration to
-   default. This command will remove all SSL Orchestrator objects from
-   the restnoded database. After issuing this command, follow with
-   ‘bigstart restart restnoded’ and ‘bigstart restart restjavad’, clear
-   the browser cache, log out and back in.
+   -  Issue the ‘clear-rest-storage [options]’ command, where the options
+      are “-l” (lowercase L) to delete the restjavad log files as well as
+      the stored state, and “-d” to reset the system configuration to
+      default. This command will remove all SSL Orchestrator objects from
+      the restnoded database. After issuing this command, follow with
+      ‘bigstart restart restnoded’ and ‘bigstart restart restjavad’, clear
+      the browser cache, log out and back in.
 
--  Issue the ‘tmsh delete sys application service recursive’ command to
-   also delete any remaining SSL Orchestrator application service
-   objects.
+   -  Issue the ‘tmsh delete sys application service recursive’ command to
+      also delete any remaining SSL Orchestrator application service objects.
 
--  Once all SSLO objects have been removed, also uninstall the SSLO RPM
-   package under the iApps menu, Package management LX – delete the SSL
-   Orchestrator package.
+   -  Once all SSLO objects have been removed, also uninstall the SSLO RPM
+      package under the iApps menu, Package management LX – delete the SSL
+      Orchestrator package.
 
--  Rebuild HA and redeploy SSLO by navigating to the SSL Orchestrator
-   configuration UI. On first visit it will automatically restore the
-   on-box package.
+   -  Rebuild HA and redeploy SSLO by navigating to the SSL Orchestrator
+      configuration UI. On first visit it will automatically restore the
+      on-box package.
 
 TROUBLESHOOT SSLO
 =================
@@ -164,7 +163,9 @@ Below is a reasonably-ordered list of troubleshooting steps.
    matches, mismatches or deployment issues.
 
    **tail -f /var/log/apm**
+
    **tail -f /var/log/restnoded/restnoded.log**
+
    **tail -f /var/log/restjavad.0.log**
 
 -  If the SSL Orchestrator deployment process succeeds, but traffic
@@ -190,50 +191,50 @@ Below is a reasonably-ordered list of troubleshooting steps.
       flow stops. If a single added service breaks traffic flow,
       this service will typically be the culprit.
 
--  If a broken service is identified, insert probes to verify inbound
-   and outbound traffic flow. Inline services will have a source (S)
-   VLAN and destination (D) VLAN, and ICAP and receive only services
-   will each have a single source VLAN. Insert a tcpdump capture at each
-   VLAN in order to determine if traffic is getting to the device, and
-   if traffic is leaving the device through its outbound interface.
+   -  If a broken service is identified, insert probes to verify inbound
+      and outbound traffic flow. Inline services will have a source (S)
+      VLAN and destination (D) VLAN, and ICAP and receive only services
+      will each have a single source VLAN. Insert a tcpdump capture at each
+      VLAN in order to determine if traffic is getting to the device, and
+      if traffic is leaving the device through its outbound interface.
 
--  If no service chains are defined, it may be necessary to remove all
-   of the defined services and re- create them one-by-one to validate
-   flow through the built-in All chain. If a broken service is
-   identified, insert tcpdump probes as described above.
+   -  If no service chains are defined, it may be necessary to remove all
+      of the defined services and re- create them one-by-one to validate
+      flow through the built-in All chain. If a broken service is
+      identified, insert tcpdump probes as described above.
 
--  If traffic is flowing through all of the security devices, insert a
-   tcpdump probe at the egress point to verify traffic is leaving the
-   BIG-IP to the gateway router.
+   -  If traffic is flowing through all of the security devices, insert a
+      tcpdump probe at the egress point to verify traffic is leaving the
+      BIG-IP to the gateway router.
 
-   tcpdump -I 0.0:nnn -nn -Xs0 -vv -w <file.pcap> <any additional filters>
+      tcpdump -I 0.0:nnn -nn -Xs0 -vv -w <file.pcap> <any additional filters>
 
--  If traffic is flowing to the gateway router, perform a more extensive
-   packet analysis to determine if SSL if failing between the BIG-IP
-   egress point and the remote server.
+   -  If traffic is flowing to the gateway router, perform a more extensive
+      packet analysis to determine if SSL if failing between the BIG-IP
+      egress point and the remote server.
 
-   Then either export this capture to WireShark are send to ssldump:
+      Then either export this capture to WireShark are send to ssldump:
 
-   ssldump -nr <file.pcap> -H -S crypto > text-file.txt
+      ssldump -nr <file.pcap> -H -S crypto > text-file.txt
 
--  If the WireShark or ssldump analysis verifies an SSL issue:
+   -  If the WireShark or ssldump analysis verifies an SSL issue:
 
-   -  Plug the site’s address into the SSLLabs.com server test site at:
-      `https://wwww.ssllabs.com/ssltest <http://www.ssllabs.com/ssltest/>`__
+      -  Plug the site’s address into the SSLLabs.com server test site at:
+         `https://wwww.ssllabs.com/ssltest <http://www.ssllabs.com/ssltest/>`__
 
-   This report will indicate any specific SSL requirements that this site has.
+      This report will indicate any specific SSL requirements that this site has.
 
--  Verify that the SSL Orchestrator server SSL profiles (two of them)
-   have the correct cipher string to match the requirements of this
-   site. To do that, perform the following command at the BIG-IP command
-   line:
+      -  Verify that the SSL Orchestrator server SSL profiles (two of them)
+         have the correct cipher string to match the requirements of this
+         site. To do that, perform the following command at the BIG-IP command
+         line:
 
-   tmm --clientciphers ‘cipher string as displayed in server ssl profiles’
+         tmm --clientciphers ‘cipher string as displayed in server ssl profiles’
 
--  Further SSL/TLS issues are beyond the depth of this lab guide. Seek
-   assistance.
+      -  Further SSL/TLS issues are beyond the depth of this lab guide. Seek
+         assistance.
 
--  If all else fails, seek assistance.
+      -  If all else fails, seek assistance.
 
 APPENDIX – COMMON TESTING COMMANDS
 ==================================
@@ -278,6 +279,8 @@ There is simply nothing better than debug logging for
 troubleshooting SSL intercept issues. The SSL Orchestrator in debug
 mode pumps out an enormous set of logs, describing every step along
 a connection’s path. Remember to never leave debug logging enabled.
+
+tail -f /var/log/apm
 
 Packet capture
 --------------
@@ -389,54 +392,65 @@ able to send inbound and outbound SSLO traffic flows through this device.
 
    #!/bin/bash
 
-   ## Inbound interface inbound\_interface=eth1.10
-   inbound\_ip=198.19.64.65 inbound\_mask=25 inbound\_gw=198.19.64.7
+   ## Inbound interface
+   inbound_interface=eth1.10
+   inbound_ip=198.19.64.65 inbound_mask=25
+   inbound_gw=198.19.64.7
 
-   ## Outbound interface outbound\_interface=eth1.20
-   outbound\_ip=198.19.64.130 outbound\_mask=25
-   outbound\_gw=198.19.64.245
+   ## Outbound interface
+   outbound_interface=eth1.20
+   outbound_ip=198.19.64.130 outbound_mask=25
+   outbound_gw=198.19.64.245
 
    ### ---------------------------------------------- ###
 
    ### ---------------------------------------------- ###
 
-   ## static table names inbound\_table=av\_in outbound\_table=av\_out
+   ## static table names
+   inbound_table=av_in
+   outbound_table=av_out
 
-   ## function to get network from mask and IP get\_network () {
+   ## function to get network from mask and IP get_network () {
 
    IFS=. read -r io1 io2 io3 io4 <<< "$2"
 
    set -- $(( 5 - ($1 / 8) )) 255 255 255 255 $(( (255 << (8 - ($1 %8))) & 255 )) 0 0 0
-   [ $1 -gt 1 ] && shift $1 \|\| shift
-   NET\_ADDR="$((${io1} & ${1-0})).$((${io2} & ${2-0})).$((${io3} &
-   ${3-0})).$((${io4} & ${4-0}))"
+   [ $1 -gt 1 ] && shift $1 || shift
+   NET\_ADDR="$((${io1} & ${1-0})).$((${io2} & ${2-0})).$((${io3} & ${3-0})).$((${io4} & ${4-0}))"
 
-   echo "$NET\_ADDR"
+   echo "$NET_ADDR"
 
    }
 
-   ## stop if iproute2 isn not installed if ! [ -d "/etc/iproute2/" ];
-   then
-
-   echo "iproute2 policy routing is not available on this system -
-   exiting" exit
-
+   ## stop if iproute2 is not installed
+   if ! [ -d "/etc/iproute2/" ]; then
+      echo "iproute2 policy routing is not available on this system - exiting" exit
    fi
 
    ## create the ipproute2 tables
 
-   if ! grep -q ${inbound\_table} /etc/iproute2/rt\_tables; then echo
-   "200 ${inbound\_table}" >> /etc/iproute2/rt\_tables
-
+   if ! grep -q ${inbound_table} /etc/iproute2/rt_tables; then echo "200
+      ${inbound_table}" >> /etc/iproute2/rt_tables
    fi
 
-   if ! grep -q ${outbound\_table} /etc/iproute2/rt\_tables; then echo
-   "201 ${outbound\_table}" >> /etc/iproute2/rt\_tables
-
+   if ! grep -q ${outbound_table} /etc/iproute2/rt_tables; then echo "201
+      ${outbound_table}" >> /etc/iproute2/rt_tables
    fi
 
    ## get the inbound and outbound networks from function
-   inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
+   inbound_net=$(get_network ${inbound_mask} ${inbound_ip})
+   outbound_net=$(get_network ${outbound_mask} ${outbound_ip})
+
+   ## create policy routes
+   ip rule add iif ${inbound_interface} table ${inbound_table}
+   ip rule add iif ${outbound_interface} table ${outbound_table}
+   ip addr add ${inbound_ip}/${inbound_mask} brd + dev ${inbound_interface}
+   ip addr add ${outbound_ip}/${outbound_mask} brd + dev ${outbound_interface}
+   ip route add ${inbound_net}/${inbound_mask} dev ${inbound_interface} src ${inbound_ip} table ${inbound_table}
+   ip route add ${outbound_net}/${outbound_mask} dev ${outbound_interface} src ${outbound_ip} table ${outbound_table}
+   ip route add ${outbound_net}/${outbound_mask} dev ${outbound_interface} src ${outbound_ip} table ${outbound_table}
+   ip route add default via ${inbound_gw} table ${outbound_table}
+
 
 APPENDIX – DEMO SCRIPTS
 =======================
@@ -504,7 +518,7 @@ Lab 1 demo script
 
    e. Click Save
 
-1. **Inline layer 3 service**
+2. **Inline layer 3 service**
 
    a. Name: some name (ex. IPS)
 
@@ -534,7 +548,7 @@ Lab 1 demo script
 
    j. Click Save
 
-1. **Inline HTTP service**
+3. **Inline HTTP service**
 
    a. Name: some name (ex. Proxy)
 
@@ -564,7 +578,7 @@ Lab 1 demo script
 
    k. Click Save
 
-1. **ICAP Service**
+4. **ICAP Service**
 
    a. name: some name (ex. DLP)
 
@@ -582,7 +596,7 @@ Lab 1 demo script
 
    h. Click Save
 
-1. **TAP Service**
+5. **TAP Service**
 
    a. Some Name (ex. TAP)
 
@@ -816,9 +830,9 @@ Lab 3 demo script
 
 2. Port: 3128
 
-1. VLANs: client-net
+3. VLANs: client-net
 
-2. Click Save & Next
+4. Click Save & Next
 
 **Egress Settings**
 

@@ -353,7 +353,7 @@ Orchestrator package.</li>
 </ul>
 </li>
 <li>If the above fails, manually clear the REST database from the command
-line,</li>
+line,<ul>
 <li>Break any HA configuration</li>
 <li>Issue the ‘clear-rest-storage [options]’ command, where the options
 are “-l” (lowercase L) to delete the restjavad log files as well as
@@ -363,14 +363,15 @@ the restnoded database. After issuing this command, follow with
 ‘bigstart restart restnoded’ and ‘bigstart restart restjavad’, clear
 the browser cache, log out and back in.</li>
 <li>Issue the ‘tmsh delete sys application service recursive’ command to
-also delete any remaining SSL Orchestrator application service
-objects.</li>
+also delete any remaining SSL Orchestrator application service objects.</li>
 <li>Once all SSLO objects have been removed, also uninstall the SSLO RPM
 package under the iApps menu, Package management LX – delete the SSL
 Orchestrator package.</li>
 <li>Rebuild HA and redeploy SSLO by navigating to the SSL Orchestrator
 configuration UI. On first visit it will automatically restore the
 on-box package.</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -406,30 +407,32 @@ APM log from a BIG-IP command line or from the logs page in the
 management UI. Debug logging will very often reveal important
 issues. Specifically, it will indicate traffic classification
 matches, mismatches or deployment issues.</p>
-<p><strong>tail -f /var/log/apm</strong>
-<strong>tail -f /var/log/restnoded/restnoded.log</strong>
-<strong>tail -f /var/log/restjavad.0.log</strong></p>
+<p><strong>tail -f /var/log/apm</strong></p>
+<p><strong>tail -f /var/log/restnoded/restnoded.log</strong></p>
+<p><strong>tail -f /var/log/restjavad.0.log</strong></p>
 </li>
 <li><p class="first">If the SSL Orchestrator deployment process succeeds, but traffic
 isn’t flowing through the environment made evident by lack of
 access to remote sites from the client:</p>
-<ul class="simple">
-<li>Ensure that the client is properly configured to either default
+<ul>
+<li><p class="first">Ensure that the client is properly configured to either default
 route to the ingress VLAN and self- IP of the BIG-IP for
 transparent proxy access or has the correct browser proxy
-settings defined for explicit proxy access.</li>
-<li>Ensure that traffic is flowing to the BIG-IP from the client with
-a tcpdump capture at the ingress interface.</li>
-<li>Review the LTM configuration created by the SSL Orchestrator.
+settings defined for explicit proxy access.</p>
+</li>
+<li><p class="first">Ensure that traffic is flowing to the BIG-IP from the client with
+a tcpdump capture at the ingress interface.</p>
+</li>
+<li><p class="first">Review the LTM configuration created by the SSL Orchestrator.
 Specifically, look at the pools and respective monitors for
-any failures.</li>
-<li>Isolate service chain services. If at least one service chain has
+any failures.</p>
+</li>
+<li><p class="first">Isolate service chain services. If at least one service chain has
 been created, and debug logging indicates that traffic is
 matching this chain, remove all but one service from that
 chain and test. Add one service back at a time until traffic
 flow stops. If a single added service breaks traffic flow,
-this service will typically be the culprit.</li>
-</ul>
+this service will typically be the culprit.</p>
 </li>
 <li><p class="first">If a broken service is identified, insert probes to verify inbound
 and outbound traffic flow. Inline services will have a source (S)
@@ -460,7 +463,7 @@ egress point and the remote server.</p>
 <a class="reference external" href="http://www.ssllabs.com/ssltest/">https://wwww.ssllabs.com/ssltest</a></li>
 </ul>
 <p>This report will indicate any specific SSL requirements that this site has.</p>
-</li>
+<ul>
 <li><p class="first">Verify that the SSL Orchestrator server SSL profiles (two of them)
 have the correct cipher string to match the requirements of this
 site. To do that, perform the following command at the BIG-IP command
@@ -471,6 +474,10 @@ line:</p>
 assistance.</p>
 </li>
 <li><p class="first">If all else fails, seek assistance.</p>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -507,6 +514,7 @@ start logging:</p>
 troubleshooting SSL intercept issues. The SSL Orchestrator in debug
 mode pumps out an enormous set of logs, describing every step along
 a connection’s path. Remember to never leave debug logging enabled.</p>
+<p>tail -f /var/log/apm</p>
 </div>
 <div class="section" id="packet-capture">
 <h2>2.2.6.4. Packet capture<a class="headerlink" href="#packet-capture" title="Permalink to this headline">¶</a></h2>
@@ -629,54 +637,64 @@ or /etc/init.d/rc.local. If the script is successful, you should be
 able to send inbound and outbound SSLO traffic flows through this device.</p>
 <div class="code highlight-default"><div class="highlight"><pre><span></span>#!/bin/bash
 
-## Inbound interface inbound\_interface=eth1.10
-inbound\_ip=198.19.64.65 inbound\_mask=25 inbound\_gw=198.19.64.7
+## Inbound interface
+inbound_interface=eth1.10
+inbound_ip=198.19.64.65 inbound_mask=25
+inbound_gw=198.19.64.7
 
-## Outbound interface outbound\_interface=eth1.20
-outbound\_ip=198.19.64.130 outbound\_mask=25
-outbound\_gw=198.19.64.245
+## Outbound interface
+outbound_interface=eth1.20
+outbound_ip=198.19.64.130 outbound_mask=25
+outbound_gw=198.19.64.245
 
 ### ---------------------------------------------- ###
 
 ### ---------------------------------------------- ###
 
-## static table names inbound\_table=av\_in outbound\_table=av\_out
+## static table names
+inbound_table=av_in
+outbound_table=av_out
 
-## function to get network from mask and IP get\_network () {
+## function to get network from mask and IP get_network () {
 
 IFS=. read -r io1 io2 io3 io4 &lt;&lt;&lt; &quot;$2&quot;
 
 set -- $(( 5 - ($1 / 8) )) 255 255 255 255 $(( (255 &lt;&lt; (8 - ($1 %8))) &amp; 255 )) 0 0 0
-[ $1 -gt 1 ] &amp;&amp; shift $1 \|\| shift
-NET\_ADDR=&quot;$((${io1} &amp; ${1-0})).$((${io2} &amp; ${2-0})).$((${io3} &amp;
-${3-0})).$((${io4} &amp; ${4-0}))&quot;
+[ $1 -gt 1 ] &amp;&amp; shift $1 || shift
+NET\_ADDR=&quot;$((${io1} &amp; ${1-0})).$((${io2} &amp; ${2-0})).$((${io3} &amp; ${3-0})).$((${io4} &amp; ${4-0}))&quot;
 
-echo &quot;$NET\_ADDR&quot;
+echo &quot;$NET_ADDR&quot;
 
 }
 
-## stop if iproute2 isn not installed if ! [ -d &quot;/etc/iproute2/&quot; ];
-then
-
-echo &quot;iproute2 policy routing is not available on this system -
-exiting&quot; exit
-
+## stop if iproute2 is not installed
+if ! [ -d &quot;/etc/iproute2/&quot; ]; then
+   echo &quot;iproute2 policy routing is not available on this system - exiting&quot; exit
 fi
 
 ## create the ipproute2 tables
 
-if ! grep -q ${inbound\_table} /etc/iproute2/rt\_tables; then echo
-&quot;200 ${inbound\_table}&quot; &gt;&gt; /etc/iproute2/rt\_tables
-
+if ! grep -q ${inbound_table} /etc/iproute2/rt_tables; then echo &quot;200
+   ${inbound_table}&quot; &gt;&gt; /etc/iproute2/rt_tables
 fi
 
-if ! grep -q ${outbound\_table} /etc/iproute2/rt\_tables; then echo
-&quot;201 ${outbound\_table}&quot; &gt;&gt; /etc/iproute2/rt\_tables
-
+if ! grep -q ${outbound_table} /etc/iproute2/rt_tables; then echo &quot;201
+   ${outbound_table}&quot; &gt;&gt; /etc/iproute2/rt_tables
 fi
 
 ## get the inbound and outbound networks from function
-inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
+inbound_net=$(get_network ${inbound_mask} ${inbound_ip})
+outbound_net=$(get_network ${outbound_mask} ${outbound_ip})
+
+## create policy routes
+ip rule add iif ${inbound_interface} table ${inbound_table}
+ip rule add iif ${outbound_interface} table ${outbound_table}
+ip addr add ${inbound_ip}/${inbound_mask} brd + dev ${inbound_interface}
+ip addr add ${outbound_ip}/${outbound_mask} brd + dev ${outbound_interface}
+ip route add ${inbound_net}/${inbound_mask} dev ${inbound_interface} src ${inbound_ip} table ${inbound_table}
+ip route add ${outbound_net}/${outbound_mask} dev ${outbound_interface} src ${outbound_ip} table ${outbound_table}
+ip route add ${outbound_net}/${outbound_mask} dev ${outbound_interface} src ${outbound_ip} table ${outbound_table}
+ip route add default via ${inbound_gw} table ${outbound_table}
 </pre></div>
 </div>
 </div>
@@ -726,8 +744,6 @@ inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
 <li>Click Save</li>
 </ol>
 </li>
-</ol>
-<ol class="arabic simple">
 <li><strong>Inline layer 3 service</strong><ol class="loweralpha">
 <li>Name: some name (ex. IPS)</li>
 <li>IP Family: IPv4</li>
@@ -749,8 +765,6 @@ inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
 <li>Click Save</li>
 </ol>
 </li>
-</ol>
-<ol class="arabic simple">
 <li><strong>Inline HTTP service</strong><ol class="loweralpha">
 <li>Name: some name (ex. Proxy)</li>
 <li>IP Family: IPv4</li>
@@ -773,8 +787,6 @@ inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
 <li>Click Save</li>
 </ol>
 </li>
-</ol>
-<ol class="arabic simple">
 <li><strong>ICAP Service</strong><ol class="loweralpha">
 <li>name: some name (ex. DLP)</li>
 <li>IP Family: IPv4</li>
@@ -786,8 +798,6 @@ inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
 <li>Click Save</li>
 </ol>
 </li>
-</ol>
-<ol class="arabic simple">
 <li><strong>TAP Service</strong><ol class="loweralpha">
 <li>Some Name (ex. TAP)</li>
 <li>Mac Address: 12:12:12:12:12:12</li>
@@ -966,8 +976,6 @@ inbound\_net=$(get\_network ${inbound\_mask} ${inbound\_ip})
 <ol class="arabic simple">
 <li>IPV4 Address: 10.20.0.150</li>
 <li>Port: 3128</li>
-</ol>
-<ol class="arabic simple">
 <li>VLANs: client-net</li>
 <li>Click Save &amp; Next</li>
 </ol>
